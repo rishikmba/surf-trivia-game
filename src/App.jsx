@@ -14,6 +14,7 @@ import {
   getCategoryBest, saveCategoryBest, getLevelsProgress, saveLevelResult,
   getTotalScore, addToTotalScore,
 } from "./storage";
+import pwsLogo from "/pws-logo.png";
 import "./App.css";
 
 const CATEGORY_ICONS = {
@@ -37,7 +38,7 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
         }} />
         <div style={{ position: "relative", zIndex: 1 }}>
           <img
-            src="/pws-logo.png"
+            src={pwsLogo}
             alt="People Who Surf"
             style={{
               width: 80, height: 80, borderRadius: "50%", objectFit: "cover",

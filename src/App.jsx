@@ -820,6 +820,14 @@ export default function App() {
           levelsProgress={levelsProgress}
         />
       )}
+
+      {/* Version footer */}
+      <div style={{
+        padding: "16px 20px 20px", textAlign: "center",
+        fontSize: 11, color: COLORS.gray300,
+      }}>
+        {__BUILD_VERSION__} &middot; {__BUILD_DATE__}
+      </div>
     </div>
   );
 }

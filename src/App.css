@@ -6,8 +6,14 @@
 
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #E2E6ED;
+  background: #F7F9FC;
   min-height: 100vh;
+}
+
+@media (min-width: 480px) {
+  body {
+    background: #E2E6ED;
+  }
 }
 
 #root {
@@ -17,7 +23,6 @@ body {
 }
 
 .app-container {
-  max-width: 420px;
   width: 100%;
   min-height: 100vh;
   background: #F7F9FC;
@@ -26,6 +31,7 @@ body {
 
 @media (min-width: 480px) {
   .app-container {
+    max-width: 420px;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.12);
   }
 }

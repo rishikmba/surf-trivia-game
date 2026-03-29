@@ -26,10 +26,10 @@ const CATEGORY_ICONS = {
 // ─── Home Screen ───
 function HomeScreen({ onNavigate, streak, totalScore }) {
   return (
-    <div style={{ minHeight: "100vh", background: COLORS.offWhite }}>
+    <div style={{ background: COLORS.offWhite }}>
       <div style={{
         background: `linear-gradient(135deg, ${COLORS.blue} 0%, ${COLORS.blueDark} 100%)`,
-        padding: "40px 24px 48px", textAlign: "center", position: "relative", overflow: "hidden",
+        padding: "28px 24px 36px", textAlign: "center", position: "relative", overflow: "hidden",
       }}>
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, bottom: 0, opacity: 0.06,
@@ -41,22 +41,22 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
             src={pwsLogo}
             alt="People Who Surf"
             style={{
-              width: 80, height: 80, borderRadius: "50%", objectFit: "cover",
-              margin: "0 auto 16px", display: "block",
+              width: 64, height: 64, borderRadius: "50%", objectFit: "cover",
+              margin: "0 auto 10px", display: "block",
               boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
             }}
           />
-          <h1 style={{ color: COLORS.white, fontSize: 28, fontWeight: 700, margin: "0 0 4px", letterSpacing: "-0.5px" }}>
+          <h1 style={{ color: COLORS.white, fontSize: 24, fontWeight: 700, margin: "0 0 2px", letterSpacing: "-0.5px" }}>
             Surf Trivia
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 14, margin: 0 }}>
+          <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 13, margin: 0 }}>
             Test your surf knowledge
           </p>
         </div>
       </div>
 
       <div style={{
-        display: "flex", justifyContent: "center", gap: 32, padding: "20px 24px",
+        display: "flex", justifyContent: "center", gap: 32, padding: "14px 24px",
         background: COLORS.white, borderBottom: `1px solid ${COLORS.gray200}`,
         marginTop: -20, borderRadius: "20px 20px 0 0", position: "relative", zIndex: 2,
       }}>
@@ -66,15 +66,15 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
           { label: "Questions", value: "130+", icon: BarChart3 },
         ].map(({ label, value, icon: Icon }) => (
           <div key={label} style={{ textAlign: "center" }}>
-            <Icon size={16} color={COLORS.blue} style={{ marginBottom: 4 }} />
-            <div style={{ fontSize: 20, fontWeight: 700, color: COLORS.gray900 }}>{value}</div>
-            <div style={{ fontSize: 11, color: COLORS.gray500, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</div>
+            <Icon size={14} color={COLORS.blue} style={{ marginBottom: 2 }} />
+            <div style={{ fontSize: 18, fontWeight: 700, color: COLORS.gray900 }}>{value}</div>
+            <div style={{ fontSize: 10, color: COLORS.gray500, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ padding: "24px 20px" }}>
-        <h2 style={{ fontSize: 13, fontWeight: 600, color: COLORS.gray500, textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 12px 4px" }}>
+      <div style={{ padding: "16px 20px" }}>
+        <h2 style={{ fontSize: 12, fontWeight: 600, color: COLORS.gray500, textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 10px 4px" }}>
           Play
         </h2>
 
@@ -83,24 +83,24 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
           onClick={() => onNavigate("daily")}
           style={{
             background: `linear-gradient(135deg, ${COLORS.blue} 0%, ${COLORS.blueLight} 100%)`,
-            borderRadius: 16, padding: "20px 24px", marginBottom: 12,
+            borderRadius: 14, padding: "16px 20px", marginBottom: 10,
             display: "flex", justifyContent: "space-between", alignItems: "center",
           }}
         >
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-              <Calendar size={18} color={COLORS.white} />
-              <span style={{ color: COLORS.white, fontSize: 18, fontWeight: 700 }}>Daily Challenge</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <Calendar size={16} color={COLORS.white} />
+              <span style={{ color: COLORS.white, fontSize: 16, fontWeight: 700 }}>Daily Challenge</span>
             </div>
-            <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 13, margin: 0 }}>
+            <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 12, margin: 0 }}>
               10 questions &middot; New every day &middot; Keep your streak!
             </p>
           </div>
           <div style={{
-            width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.2)",
+            width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.2)",
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            <Play size={20} color={COLORS.white} fill={COLORS.white} />
+            <Play size={18} color={COLORS.white} fill={COLORS.white} />
           </div>
         </div>
 
@@ -114,17 +114,17 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
             className="mode-card"
             onClick={() => onNavigate(m.screen)}
             style={{
-              background: COLORS.white, borderRadius: 16, padding: "18px 24px", marginBottom: 12,
+              background: COLORS.white, borderRadius: 14, padding: "14px 20px", marginBottom: 10,
               border: `1px solid ${COLORS.gray200}`,
               display: "flex", justifyContent: "space-between", alignItems: "center",
             }}
           >
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                <m.icon size={18} color={m.color} />
-                <span style={{ color: COLORS.gray900, fontSize: 16, fontWeight: 600 }}>{m.name}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
+                <m.icon size={16} color={m.color} />
+                <span style={{ color: COLORS.gray900, fontSize: 15, fontWeight: 600 }}>{m.name}</span>
               </div>
-              <p style={{ color: COLORS.gray500, fontSize: 13, margin: 0 }}>{m.desc}</p>
+              <p style={{ color: COLORS.gray500, fontSize: 12, margin: 0 }}>{m.desc}</p>
             </div>
             <ChevronRight size={20} color={COLORS.gray300} />
           </div>

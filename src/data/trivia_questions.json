@@ -1,0 +1,1242 @@
+{
+  "categories": [
+    {
+      "id": "legends",
+      "name": "Legends & Champions",
+      "icon": "trophy",
+      "description": "World champions, iconic surfers, and the people who shaped the sport"
+    },
+    {
+      "id": "breaks",
+      "name": "Breaks & Spots",
+      "icon": "map-pin",
+      "description": "Famous waves and surf spots from around the globe"
+    },
+    {
+      "id": "history",
+      "name": "Surf History",
+      "icon": "clock",
+      "description": "Origins, milestones, and pivotal moments in surfing's timeline"
+    },
+    {
+      "id": "culture",
+      "name": "Culture & Film",
+      "icon": "film",
+      "description": "Surf movies, music, magazines, art, and the lifestyle"
+    },
+    {
+      "id": "craft",
+      "name": "Board Craft & Design",
+      "icon": "wrench",
+      "description": "Shapers, board design evolution, fin systems, and equipment"
+    },
+    {
+      "id": "ocean",
+      "name": "Ocean Knowledge",
+      "icon": "waves",
+      "description": "Wave science, swell, tides, and reading the ocean"
+    },
+    {
+      "id": "bigwave",
+      "name": "Big Wave",
+      "icon": "mountain",
+      "description": "Chargers, tow-in, records, and the heaviest waves on Earth"
+    },
+    {
+      "id": "industry",
+      "name": "Brands & Industry",
+      "icon": "briefcase",
+      "description": "The business of surfing — brands, magazines, and the surf economy"
+    },
+    {
+      "id": "women",
+      "name": "Women of the Waves",
+      "icon": "star",
+      "description": "Pioneering women who broke barriers and defined excellence"
+    },
+    {
+      "id": "tricks",
+      "name": "Tricks & Terminology",
+      "icon": "target",
+      "description": "Maneuvers, surf slang, competition rules, and the language of surfing"
+    },
+    {
+      "id": "pws",
+      "name": "PWS Show",
+      "icon": "microphone",
+      "description": "Questions from the People Who Surf podcast episodes"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "category": "legends",
+      "difficulty": "easy",
+      "question": "How many World Surf League Championship Tour titles has Kelly Slater won?",
+      "options": ["9", "10", "11", "13"],
+      "answer": "11",
+      "explanation": "Kelly Slater won an unprecedented 11 world titles between 1992 and 2011, making him the most decorated competitive surfer in history."
+    },
+    {
+      "id": 2,
+      "category": "legends",
+      "difficulty": "medium",
+      "question": "In what year did Kelly Slater win his first world title?",
+      "options": ["1990", "1991", "1992", "1994"],
+      "answer": "1992",
+      "explanation": "Slater won his first title in 1992 at just 20 years old, becoming the youngest world champion at the time."
+    },
+    {
+      "id": 3,
+      "category": "legends",
+      "difficulty": "hard",
+      "question": "Who did Kelly Slater famously defeat in the 1995 Pipeline Masters final?",
+      "options": ["Rob Machado", "Shane Dorian", "Sunny Garcia", "Mark Occhilupo"],
+      "answer": "Rob Machado",
+      "explanation": "The 1995 Pipe Masters final between Slater and Machado is widely considered one of the greatest heats in competitive surfing history."
+    },
+    {
+      "id": 4,
+      "category": "legends",
+      "difficulty": "medium",
+      "question": "Which Australian surfer won the world title in 1999 after a dramatic comeback from years away from the tour?",
+      "options": ["Mick Fanning", "Joel Parkinson", "Mark Occhilupo", "Taj Burrow"],
+      "answer": "Mark Occhilupo",
+      "explanation": "Mark 'Occy' Occhilupo's 1999 world title was one of surfing's greatest comeback stories, having left the tour in the late '80s due to personal struggles."
+    },
+    {
+      "id": 5,
+      "category": "legends",
+      "difficulty": "hard",
+      "question": "Which surfer won the 1989 world title and is credited with helping bring progressive aerial surfing into competitive performance?",
+      "options": ["Christian Fletcher", "Martin Potter", "Matt Archbold", "Tom Carroll"],
+      "answer": "Martin Potter",
+      "explanation": "Martin 'Pottz' Potter won the 1989 world title with a revolutionary approach that combined power surfing with aerial maneuvers, changing competitive surfing forever."
+    },
+    {
+      "id": 6,
+      "category": "legends",
+      "difficulty": "easy",
+      "question": "Which Brazilian surfer became the first from his country to win a WSL World Title in 2014?",
+      "options": ["Adriano de Souza", "Gabriel Medina", "Filipe Toledo", "Italo Ferreira"],
+      "answer": "Gabriel Medina",
+      "explanation": "Gabriel Medina became the first Brazilian world champion in 2014 at age 20, ushering in the era of Brazilian dominance on the Championship Tour."
+    },
+    {
+      "id": 7,
+      "category": "legends",
+      "difficulty": "medium",
+      "question": "How many consecutive world titles did Layne Beachley win?",
+      "options": ["4", "5", "6", "7"],
+      "answer": "6",
+      "explanation": "Layne Beachley won six consecutive world titles from 1998 to 2003, plus a seventh in 2006 — the most by any surfer, male or female, at the time."
+    },
+    {
+      "id": 8,
+      "category": "legends",
+      "difficulty": "hard",
+      "question": "Which surfer is known as the 'Master of Pipeline' with seven Pipeline Masters titles?",
+      "options": ["Gerry Lopez", "Andy Irons", "Kelly Slater", "John John Florence"],
+      "answer": "Kelly Slater",
+      "explanation": "Kelly Slater has won the Pipeline Masters a record seven times, cementing his legacy at surfing's most famous wave."
+    },
+    {
+      "id": 9,
+      "category": "legends",
+      "difficulty": "medium",
+      "question": "Which Hawaiian surfer won three consecutive world titles from 2004 to 2006?",
+      "options": ["Andy Irons", "Sunny Garcia", "Bruce Irons", "John John Florence"],
+      "answer": "Andy Irons",
+      "explanation": "Andy Irons won three consecutive titles, engaging in one of surfing's greatest rivalries with Kelly Slater during that era."
+    },
+    {
+      "id": 10,
+      "category": "legends",
+      "difficulty": "hard",
+      "question": "Who was the first surfer to score two perfect 10s in a single heat at a Championship Tour event?",
+      "options": ["Kelly Slater", "Andy Irons", "Rob Machado", "Tom Curren"],
+      "answer": "Kelly Slater",
+      "explanation": "Kelly Slater achieved this historic feat, demonstrating the level of perfection that defined his competitive career."
+    },
+    {
+      "id": 11,
+      "category": "breaks",
+      "difficulty": "easy",
+      "question": "On which Hawaiian island is the Banzai Pipeline located?",
+      "options": ["Maui", "Oahu", "Big Island", "Kauai"],
+      "answer": "Oahu",
+      "explanation": "Pipeline is located on the North Shore of Oahu, on Ehukai Beach. It's considered the most famous wave in the world."
+    },
+    {
+      "id": 12,
+      "category": "breaks",
+      "difficulty": "medium",
+      "question": "In which country is the world-famous right-hand point break Jeffreys Bay (J-Bay) located?",
+      "options": ["Australia", "Indonesia", "South Africa", "Namibia"],
+      "answer": "South Africa",
+      "explanation": "J-Bay is located in the Eastern Cape of South Africa and is widely regarded as one of the best right-hand point breaks on Earth."
+    },
+    {
+      "id": 13,
+      "category": "breaks",
+      "difficulty": "hard",
+      "question": "Teahupo'o, one of the heaviest waves on the planet, breaks over what type of reef?",
+      "options": ["Volcanic rock", "Sharp coral", "Limestone shelf", "Sandstone"],
+      "answer": "Sharp coral",
+      "explanation": "Teahupo'o in Tahiti breaks over an extremely shallow and sharp coral reef, making wipeouts particularly dangerous."
+    },
+    {
+      "id": 14,
+      "category": "breaks",
+      "difficulty": "medium",
+      "question": "What is the name of the famous big wave break in Half Moon Bay, California?",
+      "options": ["Ghost Trees", "Cortes Bank", "Mavericks", "Killers"],
+      "answer": "Mavericks",
+      "explanation": "Mavericks is a world-renowned big wave spot that produces massive winter swells. It was first surfed by Jeff Clark, who surfed it alone for 15 years before others joined."
+    },
+    {
+      "id": 15,
+      "category": "breaks",
+      "difficulty": "hard",
+      "question": "Which surfer is credited with first surfing Mavericks alone for 15 years before others discovered it?",
+      "options": ["Mark Foo", "Jeff Clark", "Peter Mel", "Grant Washburn"],
+      "answer": "Jeff Clark",
+      "explanation": "Jeff Clark first surfed Mavericks in 1975 as a 17-year-old and surfed it alone until 1990 when he finally convinced other surfers to join him."
+    },
+    {
+      "id": 16,
+      "category": "breaks",
+      "difficulty": "easy",
+      "question": "Nazaré, famous for producing the largest surfed waves in history, is located in which country?",
+      "options": ["Spain", "France", "Portugal", "Morocco"],
+      "answer": "Portugal",
+      "explanation": "Nazaré is a fishing village in Portugal where an underwater canyon focuses Atlantic swells into massive waves, some exceeding 80 feet."
+    },
+    {
+      "id": 17,
+      "category": "breaks",
+      "difficulty": "medium",
+      "question": "What underwater feature causes the enormous waves at Nazaré?",
+      "options": ["Volcanic trench", "Submarine canyon", "Coral reef system", "Continental shelf drop-off"],
+      "answer": "Submarine canyon",
+      "explanation": "The Nazaré Canyon, one of the largest submarine canyons in Europe, funnels and amplifies incoming ocean swells to create giant waves."
+    },
+    {
+      "id": 18,
+      "category": "breaks",
+      "difficulty": "hard",
+      "question": "Cloudbreak, the famous left-hand reef break, is located off which Fijian island?",
+      "options": ["Viti Levu", "Tavarua", "Namotu", "Vanua Levu"],
+      "answer": "Tavarua",
+      "explanation": "Cloudbreak is a powerful left-hand reef break located about a mile off Tavarua Island in Fiji, known for its long, perfect barrels."
+    },
+    {
+      "id": 19,
+      "category": "breaks",
+      "difficulty": "medium",
+      "question": "What is the name of the famous wave in the Basque Country of Spain known for its long left-hand barrels?",
+      "options": ["Hossegor", "Mundaka", "Sopelana", "Zarautz"],
+      "answer": "Mundaka",
+      "explanation": "Mundaka is a world-class left-hand rivermouth barrel in the Basque region of Spain, though it has been inconsistent due to dredging affecting the sandbar."
+    },
+    {
+      "id": 20,
+      "category": "breaks",
+      "difficulty": "easy",
+      "question": "Uluwatu, one of Bali's most iconic surf breaks, is located on which coast of the island?",
+      "options": ["North", "East", "South", "West"],
+      "answer": "South",
+      "explanation": "Uluwatu sits on Bali's Bukit Peninsula on the southwestern tip, facing the Indian Ocean. It's known for its consistent left-hand barrels."
+    },
+    {
+      "id": 21,
+      "category": "history",
+      "difficulty": "easy",
+      "question": "Which Hawaiian waterman is widely credited with popularizing surfing around the world in the early 1900s?",
+      "options": ["Eddie Aikau", "Duke Kahanamoku", "George Freeth", "Tom Blake"],
+      "answer": "Duke Kahanamoku",
+      "explanation": "Duke Kahanamoku, an Olympic swimming gold medalist, introduced surfing to the mainland US, Australia, and beyond through exhibitions in the 1910s-1920s."
+    },
+    {
+      "id": 22,
+      "category": "history",
+      "difficulty": "medium",
+      "question": "What was the ancient Hawaiian word for surfing?",
+      "options": ["Aloha nalu", "He'e nalu", "Kai nalu", "Nalu kai"],
+      "answer": "He'e nalu",
+      "explanation": "He'e nalu translates roughly to 'wave sliding' and was deeply embedded in Hawaiian culture, with surfing considered a spiritual practice."
+    },
+    {
+      "id": 23,
+      "category": "history",
+      "difficulty": "hard",
+      "question": "In what decade did the 'shortboard revolution' fundamentally transform surfboard design?",
+      "options": ["1950s", "1960s", "1970s", "1980s"],
+      "answer": "1960s",
+      "explanation": "The shortboard revolution occurred in the late 1960s (roughly 1967-1970), led by Australian and Californian shapers who rapidly reduced board lengths from 9+ feet to under 7 feet."
+    },
+    {
+      "id": 24,
+      "category": "history",
+      "difficulty": "medium",
+      "question": "Which surfer brought surfing to Australia with a demonstration at Freshwater Beach, Sydney in 1914-1915?",
+      "options": ["Tom Blake", "George Freeth", "Duke Kahanamoku", "Jack London"],
+      "answer": "Duke Kahanamoku",
+      "explanation": "Duke gave a famous surfing demonstration at Freshwater Beach in Sydney in 1914-1915, sparking Australia's enduring surf culture."
+    },
+    {
+      "id": 25,
+      "category": "history",
+      "difficulty": "hard",
+      "question": "Which Californian surfer built the first hollow surfboard in the 1920s-1930s, revolutionizing board construction?",
+      "options": ["Bob Simmons", "Tom Blake", "Dale Velzy", "Hobie Alter"],
+      "answer": "Tom Blake",
+      "explanation": "Tom Blake patented the hollow surfboard design in 1932, dramatically reducing the weight of boards and making surfing more accessible."
+    },
+    {
+      "id": 26,
+      "category": "history",
+      "difficulty": "easy",
+      "question": "Surfing made its Olympic debut at which Summer Games?",
+      "options": ["Rio 2016", "Tokyo 2020", "Paris 2024", "London 2012"],
+      "answer": "Tokyo 2020",
+      "explanation": "Surfing debuted as an Olympic sport at the Tokyo 2020 Games (held in 2021), with competition at Tsurigasaki Beach."
+    },
+    {
+      "id": 27,
+      "category": "history",
+      "difficulty": "medium",
+      "question": "Who won the first-ever Olympic gold medal in men's surfing at Tokyo 2020?",
+      "options": ["Gabriel Medina", "Italo Ferreira", "Kanoa Igarashi", "John John Florence"],
+      "answer": "Italo Ferreira",
+      "explanation": "Brazil's Italo Ferreira won the inaugural Olympic men's surfing gold medal, while Carissa Moore won women's gold."
+    },
+    {
+      "id": 28,
+      "category": "history",
+      "difficulty": "hard",
+      "question": "What year was the first official surfing world championship held?",
+      "options": ["1953", "1960", "1964", "1968"],
+      "answer": "1964",
+      "explanation": "The first World Surfing Championships were held in 1964 at Manly Beach, Sydney, Australia. Midget Farrelly of Australia won the men's title."
+    },
+    {
+      "id": 29,
+      "category": "history",
+      "difficulty": "medium",
+      "question": "Which Australian won the inaugural World Surfing Championship at Manly Beach in 1964?",
+      "options": ["Nat Young", "Midget Farrelly", "Bob McTavish", "Peter Troy"],
+      "answer": "Midget Farrelly",
+      "explanation": "Bernard 'Midget' Farrelly became the first official world surfing champion, winning at his home break of Manly Beach, Sydney."
+    },
+    {
+      "id": 30,
+      "category": "history",
+      "difficulty": "hard",
+      "question": "What year did the professional surfing world tour (IPS, later ASP, now WSL) officially begin?",
+      "options": ["1970", "1975", "1976", "1982"],
+      "answer": "1976",
+      "explanation": "The International Professional Surfers (IPS) organized the first professional world tour in 1976, with Peter Townend winning the inaugural title."
+    },
+    {
+      "id": 31,
+      "category": "culture",
+      "difficulty": "easy",
+      "question": "What is the name of the iconic 1966 surf documentary directed by Bruce Brown?",
+      "options": ["Big Wednesday", "Riding Giants", "The Endless Summer", "Step Into Liquid"],
+      "answer": "The Endless Summer",
+      "explanation": "The Endless Summer followed two surfers traveling the world in search of the perfect wave and became one of the most influential surf films ever made."
+    },
+    {
+      "id": 32,
+      "category": "culture",
+      "difficulty": "medium",
+      "question": "Which legendary surf magazine, founded in 1960, ceased print publication in 2020?",
+      "options": ["Tracks", "Surfer", "Surfing", "Stab"],
+      "answer": "Surfer",
+      "explanation": "Surfer Magazine, founded by John Severson in 1960 and known as 'The Bible of the Sport,' ceased print publication after 60 years."
+    },
+    {
+      "id": 33,
+      "category": "culture",
+      "difficulty": "hard",
+      "question": "Who founded Surfer Magazine in 1960?",
+      "options": ["Drew Kampion", "Steve Pezman", "John Severson", "Sam George"],
+      "answer": "John Severson",
+      "explanation": "John Severson, a surfer, artist, and filmmaker, founded Surfer Magazine in 1960, originally as a one-time promotion for his surf film."
+    },
+    {
+      "id": 34,
+      "category": "culture",
+      "difficulty": "easy",
+      "question": "Which 1991 action film starring Keanu Reeves and Patrick Swayze features surfing prominently?",
+      "options": ["Blue Crush", "Point Break", "In God's Hands", "North Shore"],
+      "answer": "Point Break",
+      "explanation": "Point Break, directed by Kathryn Bigelow, became a cult classic featuring Swayze as a surfing bank robber and Reeves as the FBI agent tracking him."
+    },
+    {
+      "id": 35,
+      "category": "culture",
+      "difficulty": "medium",
+      "question": "Which 1978 John Milius film is considered the definitive dramatic surf movie, set in 1960s Malibu?",
+      "options": ["North Shore", "Big Wednesday", "In God's Hands", "Breath"],
+      "answer": "Big Wednesday",
+      "explanation": "Big Wednesday follows three Malibu surfers through the 1960s and 1970s. Despite initial box office failure, it became a revered classic in surf culture."
+    },
+    {
+      "id": 36,
+      "category": "culture",
+      "difficulty": "hard",
+      "question": "Which Australian surf magazine, founded in 1970, is the longest continuously published surf magazine in the world?",
+      "options": ["Tracks", "Surfing Life", "Waves", "Stab"],
+      "answer": "Tracks",
+      "explanation": "Tracks magazine has been published continuously since 1970 and remains a cornerstone of Australian surf media."
+    },
+    {
+      "id": 37,
+      "category": "culture",
+      "difficulty": "medium",
+      "question": "What is the name of the 2004 Stacy Peralta documentary about the history of big wave surfing?",
+      "options": ["Step Into Liquid", "Riding Giants", "Billabong Odyssey", "Chasing Mavericks"],
+      "answer": "Riding Giants",
+      "explanation": "Riding Giants traces big wave surfing from its origins with the pioneers in Hawaii through the tow-in revolution with Laird Hamilton."
+    },
+    {
+      "id": 38,
+      "category": "culture",
+      "difficulty": "easy",
+      "question": "Which band is most associated with the 1960s surf music genre?",
+      "options": ["Jan and Dean", "The Beach Boys", "The Ventures", "The Surfaris"],
+      "answer": "The Beach Boys",
+      "explanation": "The Beach Boys defined the California surf sound of the 1960s, though Dick Dale is often called the 'King of Surf Guitar.'"
+    },
+    {
+      "id": 39,
+      "category": "culture",
+      "difficulty": "hard",
+      "question": "Which guitarist is known as the 'King of the Surf Guitar'?",
+      "options": ["Jimi Hendrix", "Link Wray", "Dick Dale", "Duane Eddy"],
+      "answer": "Dick Dale",
+      "explanation": "Dick Dale pioneered the surf rock guitar sound in the early 1960s with tracks like 'Misirlou,' which was later used in Pulp Fiction."
+    },
+    {
+      "id": 40,
+      "category": "culture",
+      "difficulty": "medium",
+      "question": "The Malloy brothers' 1997 film that revived the classic surf film genre was called what?",
+      "options": ["Shelter", "A Brokedown Melody", "Thicker Than Water", "180 South"],
+      "answer": "Thicker Than Water",
+      "explanation": "Directed by the eldest brother Chris Malloy, Thicker Than Water won Movie of the Year at the Surfer Poll and marked a return to soulful surf filmmaking."
+    },
+    {
+      "id": 41,
+      "category": "craft",
+      "difficulty": "easy",
+      "question": "What is the name of the three-fin surfboard setup invented by Simon Anderson in 1980-1981?",
+      "options": ["Twin fin", "Thruster", "Quad", "Bonzer"],
+      "answer": "Thruster",
+      "explanation": "Simon Anderson's thruster design revolutionized surfboard performance by adding a center fin between two side fins, providing speed, control, and maneuverability."
+    },
+    {
+      "id": 42,
+      "category": "craft",
+      "difficulty": "medium",
+      "question": "Which legendary shaper founded Channel Islands Surfboards and shaped boards for Kelly Slater and Tom Curren?",
+      "options": ["Rusty Preisendorfer", "Al Merrick", "Matt Biolos", "Pat Rawson"],
+      "answer": "Al Merrick",
+      "explanation": "Al Merrick founded Channel Islands Surfboards in Santa Barbara and became one of the most successful shapers in history, crafting boards for multiple world champions."
+    },
+    {
+      "id": 43,
+      "category": "craft",
+      "difficulty": "hard",
+      "question": "Which California shaper is often called the 'father of the modern surfboard' for his hydrodynamic innovations in the 1940s-50s?",
+      "options": ["Dale Velzy", "Hobie Alter", "Bob Simmons", "Joe Quigg"],
+      "answer": "Bob Simmons",
+      "explanation": "Bob Simmons applied principles of hydrodynamics and naval planing hull design to surfboards, pioneering fiberglass construction and planing hull shapes."
+    },
+    {
+      "id": 44,
+      "category": "craft",
+      "difficulty": "medium",
+      "question": "Which Australian surfer-shaper popularized the twin-fin design in the late 1970s, winning back-to-back world titles on it?",
+      "options": ["Simon Anderson", "Mark Richards", "Wayne Lynch", "Cheyne Horan"],
+      "answer": "Mark Richards",
+      "explanation": "Mark Richards (MR) won four consecutive world titles from 1979-1982, largely riding twin-fin boards that offered a radical departure from single-fin designs."
+    },
+    {
+      "id": 45,
+      "category": "craft",
+      "difficulty": "easy",
+      "question": "What material revolutionized surfboard construction when it replaced solid wood in the mid-20th century?",
+      "options": ["Carbon fiber", "Fiberglass and foam", "Kevlar", "Bamboo"],
+      "answer": "Fiberglass and foam",
+      "explanation": "The combination of polyurethane foam blanks covered in fiberglass cloth and resin replaced heavy wooden boards, making surfing far more accessible."
+    },
+    {
+      "id": 46,
+      "category": "craft",
+      "difficulty": "hard",
+      "question": "The Campbell Brothers are known for creating which innovative multi-fin surfboard design?",
+      "options": ["Thruster", "Bonzer", "Twinzer", "Hydro hull"],
+      "answer": "Bonzer",
+      "explanation": "Malcolm and Duncan Campbell created the Bonzer in 1970-1972, featuring bottom concaves and multiple side fins that channel water for speed and control."
+    },
+    {
+      "id": 47,
+      "category": "craft",
+      "difficulty": "medium",
+      "question": "What type of surfboard, typically 5'2\" to 5'10\" with a wide swallowtail, was popularized in the early 2000s retro revival?",
+      "options": ["Gun", "Fish", "Egg", "Funboard"],
+      "answer": "Fish",
+      "explanation": "The fish design, originally created by Steve Lis in the early 1970s for knee-riding, was revived in the 2000s as a high-performance alternative to standard shortboards."
+    },
+    {
+      "id": 48,
+      "category": "craft",
+      "difficulty": "hard",
+      "question": "Who is credited with creating the original fish surfboard design in the early 1970s?",
+      "options": ["Skip Frye", "Steve Lis", "Rich Pavel", "Rob Machado"],
+      "answer": "Steve Lis",
+      "explanation": "Steve Lis, a kneeboard surfer from San Diego, designed the twin-fin fish around 1967-1972 for riding the reefs of Sunset Cliffs."
+    },
+    {
+      "id": 49,
+      "category": "craft",
+      "difficulty": "medium",
+      "question": "What type of surfboard is specifically designed for riding large waves, typically 7-12 feet long with a narrow template?",
+      "options": ["Funboard", "Fish", "Gun", "Longboard"],
+      "answer": "Gun",
+      "explanation": "Guns are narrow, pointed surfboards designed to handle the speed and power of large waves, allowing surfers to paddle into and control big wave drops."
+    },
+    {
+      "id": 50,
+      "category": "craft",
+      "difficulty": "easy",
+      "question": "What is the removable fin system that allows surfers to swap out fins called, popularized by FCS and Futures?",
+      "options": ["Glassed-on fins", "Fin box system", "Removable fin system", "Plug-in fins"],
+      "answer": "Removable fin system",
+      "explanation": "FCS (Fin Control System) and Futures are the two dominant removable fin systems that allow surfers to customize their fin setup for different conditions."
+    },
+    {
+      "id": 51,
+      "category": "ocean",
+      "difficulty": "easy",
+      "question": "What term describes the period of time (in seconds) between successive waves in a swell?",
+      "options": ["Wave frequency", "Swell interval", "Wave period", "Swell gap"],
+      "answer": "Wave period",
+      "explanation": "Wave period, measured in seconds, indicates the time between successive wave crests. Longer periods (14+ seconds) generally mean more powerful, well-organized surf."
+    },
+    {
+      "id": 52,
+      "category": "ocean",
+      "difficulty": "medium",
+      "question": "In the Hawaiian scale of wave measurement, how does wave height compare to the face measurement?",
+      "options": ["Same as face height", "Roughly half the face height", "Double the face height", "One-third the face height"],
+      "answer": "Roughly half the face height",
+      "explanation": "The Hawaiian scale measures waves from the back, resulting in measurements roughly half the wave face. A '10-foot Hawaiian' wave has approximately a 20-foot face."
+    },
+    {
+      "id": 53,
+      "category": "ocean",
+      "difficulty": "hard",
+      "question": "What is the name of the dangerous current that flows outward from shore through a break in the sandbar or reef?",
+      "options": ["Undertow", "Rip current", "Longshore drift", "Ebb flow"],
+      "answer": "Rip current",
+      "explanation": "Rip currents are powerful, narrow channels of fast-moving water. Experienced surfers often use them to paddle out more easily, but they're dangerous for swimmers."
+    },
+    {
+      "id": 54,
+      "category": "ocean",
+      "difficulty": "medium",
+      "question": "Waves are primarily generated by what force?",
+      "options": ["Tidal pull", "Earthquakes", "Wind", "Ocean currents"],
+      "answer": "Wind",
+      "explanation": "Wind blowing over the ocean surface creates waves. The size depends on wind speed, duration, and the distance over which the wind blows (fetch)."
+    },
+    {
+      "id": 55,
+      "category": "ocean",
+      "difficulty": "hard",
+      "question": "What is 'fetch' in oceanography?",
+      "options": ["The height of a wave", "The distance wind travels over open water", "The speed of a current", "The depth of the ocean floor"],
+      "answer": "The distance wind travels over open water",
+      "explanation": "Fetch is the unobstructed distance over water that wind blows in a consistent direction. Greater fetch produces larger, more organized swells."
+    },
+    {
+      "id": 56,
+      "category": "ocean",
+      "difficulty": "easy",
+      "question": "What causes tides to rise and fall?",
+      "options": ["Wind patterns", "Ocean temperature", "Gravitational pull of the moon and sun", "Earth's rotation alone"],
+      "answer": "Gravitational pull of the moon and sun",
+      "explanation": "Tides are caused primarily by the gravitational pull of the moon and, to a lesser extent, the sun on Earth's oceans."
+    },
+    {
+      "id": 57,
+      "category": "ocean",
+      "difficulty": "medium",
+      "question": "What term describes a wave that breaks with a steep, hollow face creating a tube?",
+      "options": ["Mushy", "Barreling", "Crumbly", "Reforming"],
+      "answer": "Barreling",
+      "explanation": "A barreling wave pitches out over itself to form a hollow tube or barrel — the most sought-after wave type in surfing."
+    },
+    {
+      "id": 58,
+      "category": "ocean",
+      "difficulty": "hard",
+      "question": "What is the term for the phenomenon where ocean swells traveling from a distant storm become more organized and uniform as they travel?",
+      "options": ["Wave refraction", "Swell dispersion", "Groundswell formation", "Wave sorting"],
+      "answer": "Groundswell formation",
+      "explanation": "As swells travel thousands of miles from their source storm, they organize into clean, evenly-spaced groundswell with long periods, producing the best surf."
+    },
+    {
+      "id": 59,
+      "category": "bigwave",
+      "difficulty": "easy",
+      "question": "Which Hawaiian lifeguard is the namesake of a big wave invitational at Waimea Bay that only runs when waves exceed 20 feet?",
+      "options": ["Duke Kahanamoku", "Eddie Aikau", "Rell Sunn", "Buffalo Keaulana"],
+      "answer": "Eddie Aikau",
+      "explanation": "The Eddie Aikau Big Wave Invitational honors the legendary Hawaiian lifeguard who never lost a single person during his time at Waimea Bay. The event's motto: 'Eddie Would Go.'"
+    },
+    {
+      "id": 60,
+      "category": "bigwave",
+      "difficulty": "medium",
+      "question": "Which surfer pioneered tow-in surfing using jet skis in the early 1990s at Jaws (Pe'ahi)?",
+      "options": ["Ken Bradshaw", "Laird Hamilton", "Brock Little", "Darrick Doerner"],
+      "answer": "Laird Hamilton",
+      "explanation": "Laird Hamilton, along with Buzzy Kerbox and Darrick Doerner, pioneered the use of jet skis to tow surfers into waves too large and fast to paddle into."
+    },
+    {
+      "id": 61,
+      "category": "bigwave",
+      "difficulty": "hard",
+      "question": "Which surfer rode a wave measured at approximately 86 feet at Nazaré in 2018, setting a Guinness World Record?",
+      "options": ["Sebastian Steudtner", "Rodrigo Koxa", "Garrett McNamara", "Andrew Cotton"],
+      "answer": "Rodrigo Koxa",
+      "explanation": "Brazilian Rodrigo Koxa surfed an 80-foot (24.38m) wave at Nazaré on November 8, 2017 (confirmed by Guinness in 2018), breaking the previous record."
+    },
+    {
+      "id": 62,
+      "category": "bigwave",
+      "difficulty": "medium",
+      "question": "Who was the first surfer to gain widespread recognition for riding Nazaré's giant waves, putting the spot on the global surfing map?",
+      "options": ["Rodrigo Koxa", "Andrew Cotton", "Garrett McNamara", "Sebastian Steudtner"],
+      "answer": "Garrett McNamara",
+      "explanation": "Garrett McNamara's 2011 ride at Nazaré, initially estimated at 78 feet, brought worldwide attention to the Portuguese big wave spot."
+    },
+    {
+      "id": 63,
+      "category": "bigwave",
+      "difficulty": "hard",
+      "question": "Which legendary surfer was called 'Da Bull' and was one of the first to ride truly giant surf at Waimea Bay in the late 1950s?",
+      "options": ["Buzzy Trent", "Greg Noll", "Pat Curren", "Jose Angel"],
+      "answer": "Greg Noll",
+      "explanation": "Greg Noll, nicknamed 'Da Bull,' was one of the original big wave pioneers. His ride at Makaha during a massive 1969 swell is considered one of the most significant in surfing history."
+    },
+    {
+      "id": 64,
+      "category": "bigwave",
+      "difficulty": "easy",
+      "question": "What is the name of the famous big wave break on Maui's north shore, also known as Pe'ahi?",
+      "options": ["Sunset Beach", "Waimea Bay", "Jaws", "Pipeline"],
+      "answer": "Jaws",
+      "explanation": "Jaws (Pe'ahi) is one of the most powerful waves on Earth, capable of producing faces exceeding 60 feet. It's located on Maui's north shore."
+    },
+    {
+      "id": 65,
+      "category": "bigwave",
+      "difficulty": "medium",
+      "question": "What is the name for the surfing technique where a jet ski tows a surfer into a wave too large to paddle into?",
+      "options": ["Paddle-in", "Tow-in", "Drop-in", "Foil-in"],
+      "answer": "Tow-in",
+      "explanation": "Tow-in surfing, pioneered in the early 1990s, allowed surfers to ride waves previously considered un-surfable by using the speed of a jet ski."
+    },
+    {
+      "id": 66,
+      "category": "bigwave",
+      "difficulty": "hard",
+      "question": "German surfer Sebastian Steudtner set the current Guinness World Record for the largest wave ever surfed at Nazaré. Approximately how tall was it?",
+      "options": ["78 feet", "82 feet", "86 feet", "92 feet"],
+      "answer": "86 feet",
+      "explanation": "Sebastian Steudtner rode an 86-foot (26.21m) wave at Nazaré on October 29, 2020, as confirmed by Guinness World Records in 2024."
+    },
+    {
+      "id": 67,
+      "category": "industry",
+      "difficulty": "easy",
+      "question": "Which surf brand was founded in Torquay, Australia in 1969 and is known for its iconic search logo?",
+      "options": ["Billabong", "Quiksilver", "Rip Curl", "Hurley"],
+      "answer": "Rip Curl",
+      "explanation": "Rip Curl was founded by Doug Warbrick and Brian Singer in Torquay, Victoria, Australia in 1969, becoming one of the 'Big Three' Australian surf brands."
+    },
+    {
+      "id": 68,
+      "category": "industry",
+      "difficulty": "medium",
+      "question": "Jack O'Neill is credited with helping pioneer which essential piece of surf equipment in Northern California?",
+      "options": ["The leash", "The wetsuit", "Surf wax", "The fin"],
+      "answer": "The wetsuit",
+      "explanation": "Jack O'Neill began experimenting with neoprene wetsuits in the 1950s to withstand the cold waters of Northern California, founding O'Neill wetsuits."
+    },
+    {
+      "id": 69,
+      "category": "industry",
+      "difficulty": "hard",
+      "question": "Quiksilver was founded in which Australian beach town in 1969?",
+      "options": ["Gold Coast", "Byron Bay", "Torquay", "Manly"],
+      "answer": "Torquay",
+      "explanation": "Quiksilver was founded by Alan Green and John Law in Torquay, Victoria in 1969 — the same town and year as Rip Curl, making them longtime local rivals."
+    },
+    {
+      "id": 70,
+      "category": "industry",
+      "difficulty": "medium",
+      "question": "Which surf/skate/snow brand was founded by Richard Woolcott and Tucker Hall in 1991 with the motto 'Youth Against Establishment'?",
+      "options": ["RVCA", "Volcom", "Hurley", "Billabong"],
+      "answer": "Volcom",
+      "explanation": "Volcom was founded in 1991 in Costa Mesa, California with the tagline 'Youth Against Establishment,' becoming a major force in action sports culture."
+    },
+    {
+      "id": 71,
+      "category": "industry",
+      "difficulty": "easy",
+      "question": "Which brand, founded by Bob Hurley in 1999, was later acquired by Nike?",
+      "options": ["Volcom", "RVCA", "Hurley", "Vissla"],
+      "answer": "Hurley",
+      "explanation": "Bob Hurley founded Hurley International in Costa Mesa, California in 1999. Nike acquired the brand in 2002 before eventually selling it to Bluestar Alliance in 2019."
+    },
+    {
+      "id": 72,
+      "category": "industry",
+      "difficulty": "hard",
+      "question": "In what year was Billabong founded by Gordon Merchant on the Gold Coast of Australia?",
+      "options": ["1969", "1973", "1978", "1982"],
+      "answer": "1973",
+      "explanation": "Gordon Merchant founded Billabong in 1973 on the Gold Coast, initially sewing boardshorts on his kitchen table. It grew into one of the world's largest surf brands."
+    },
+    {
+      "id": 73,
+      "category": "industry",
+      "difficulty": "medium",
+      "question": "What was the original name of the World Surf League before its 2015 rebrand?",
+      "options": ["International Surfing Association", "Association of Surfing Professionals", "World Professional Surfing", "International Professional Surfers"],
+      "answer": "Association of Surfing Professionals",
+      "explanation": "The ASP (Association of Surfing Professionals) governed professional surfing from 1983 until 2015, when it was rebranded as the World Surf League (WSL) under new ownership."
+    },
+    {
+      "id": 74,
+      "category": "industry",
+      "difficulty": "hard",
+      "question": "Which company purchased the ASP and rebranded it as the World Surf League in 2013-2015?",
+      "options": ["Terry Hardy's group", "Dirk Ziff's ZoSea Media", "Red Bull", "Nike"],
+      "answer": "Dirk Ziff's ZoSea Media",
+      "explanation": "Billionaire Dirk Ziff's ZoSea Media acquired the ASP in 2013 and rebranded it as the WSL, injecting significant capital and modernizing the sport's organization."
+    },
+    {
+      "id": 75,
+      "category": "women",
+      "difficulty": "easy",
+      "question": "Which Hawaiian surfer won the first-ever Olympic gold medal in women's surfing at Tokyo 2020?",
+      "options": ["Stephanie Gilmore", "Caroline Marks", "Carissa Moore", "Tatiana Weston-Webb"],
+      "answer": "Carissa Moore",
+      "explanation": "Carissa Moore, a five-time WSL World Champion from Honolulu, won the inaugural Olympic women's surfing gold medal at the Tokyo 2020 Games held in 2021."
+    },
+    {
+      "id": 76,
+      "category": "women",
+      "difficulty": "medium",
+      "question": "How many world titles has Stephanie Gilmore won?",
+      "options": ["5", "6", "7", "8"],
+      "answer": "8",
+      "explanation": "Australia's Stephanie Gilmore has won eight world titles, making her one of the most decorated surfers — male or female — in history."
+    },
+    {
+      "id": 77,
+      "category": "women",
+      "difficulty": "hard",
+      "question": "Which American surfer won four consecutive world titles from 1994-1997 and famously appeared in a 'Surfer Girl' ad?",
+      "options": ["Frieda Zamba", "Lisa Andersen", "Layne Beachley", "Pam Burridge"],
+      "answer": "Lisa Andersen",
+      "explanation": "Lisa Andersen dominated women's surfing in the mid-1990s and famously graced the cover of Surfer Magazine with the headline 'Lisa Andersen Surfs Better Than You.'"
+    },
+    {
+      "id": 78,
+      "category": "women",
+      "difficulty": "easy",
+      "question": "Which surfer lost her left arm in a shark attack at age 13 and returned to professional competition?",
+      "options": ["Maya Gabeira", "Bethany Hamilton", "Keala Kennelly", "Silvana Lima"],
+      "answer": "Bethany Hamilton",
+      "explanation": "Bethany Hamilton was attacked by a tiger shark while surfing in Kauai in 2003. She returned to competitive surfing just one month later and continues to surf professionally."
+    },
+    {
+      "id": 79,
+      "category": "women",
+      "difficulty": "medium",
+      "question": "Which Hawaiian woman surfer and big wave pioneer became the first woman to be nominated for the WSL Big Wave Awards?",
+      "options": ["Bethany Hamilton", "Keala Kennelly", "Andrea Moller", "Maya Gabeira"],
+      "answer": "Keala Kennelly",
+      "explanation": "Keala Kennelly broke through in big wave surfing, charging Teahupo'o and earning respect as one of the heaviest chargers regardless of gender."
+    },
+    {
+      "id": 80,
+      "category": "women",
+      "difficulty": "hard",
+      "question": "Brazilian big wave surfer Maya Gabeira set a women's world record at Nazaré in 2020. Approximately how tall was the wave?",
+      "options": ["55 feet", "63 feet", "68 feet", "73 feet"],
+      "answer": "73 feet",
+      "explanation": "Maya Gabeira rode a 73.5-foot (22.4m) wave at Nazaré on February 11, 2020, setting the Guinness World Record for the largest wave ever surfed by a woman."
+    },
+    {
+      "id": 81,
+      "category": "women",
+      "difficulty": "medium",
+      "question": "Which surfer, originally from South Africa, became the first woman to win a world title representing Australia in 1989?",
+      "options": ["Layne Beachley", "Pam Burridge", "Pauline Menczer", "Wendy Botha"],
+      "answer": "Wendy Botha",
+      "explanation": "Wendy Botha, born in South Africa, switched allegiance to Australia and won four world titles (1987, 1989, 1991, 1992), paving the way for Australian women's surfing."
+    },
+    {
+      "id": 82,
+      "category": "pws",
+      "difficulty": "easy",
+      "question": "The People Who Surf Show tagline is 'For lovers of surf...' what three things?",
+      "options": ["People, waves, and boards", "History, culture, and craft", "People, history, and culture", "Waves, culture, and travel"],
+      "answer": "History, culture, and craft",
+      "explanation": "The full tagline is 'For lovers of surf people, history, culture and craft' — reflecting the show's deep focus on the human stories behind surfing."
+    },
+    {
+      "id": 83,
+      "category": "pws",
+      "difficulty": "medium",
+      "question": "Who is the host of the People Who Surf Show?",
+      "options": ["Sam George", "Chris Mauro", "Matt Warshaw", "Steve Pezman"],
+      "answer": "Chris Mauro",
+      "explanation": "Chris Mauro, a former Surfer magazine editor, hosts the People Who Surf Show, bringing decades of surf media experience to his interviews."
+    },
+    {
+      "id": 84,
+      "category": "pws",
+      "difficulty": "hard",
+      "question": "On the People Who Surf Show, Don Craig revealed he created which famous phrase and brand that started at San Onofre?",
+      "options": ["Surf's Up", "No Bad Days", "Old Guys Rule", "Salt Life"],
+      "answer": "Old Guys Rule",
+      "explanation": "Don Craig trademarked 'Old Guys Rule' in 2003, inspired by his father and the old guard surfers at San Onofre. It became a hugely popular brand."
+    },
+    {
+      "id": 85,
+      "category": "pws",
+      "difficulty": "medium",
+      "question": "In his PWS episode, Troy Eckert was described as 'Employee No. 1' at which iconic action sports brand?",
+      "options": ["Quiksilver", "Billabong", "Volcom", "RVCA"],
+      "answer": "Volcom",
+      "explanation": "Troy Eckert became Volcom's first employee in 1991 at age 18, spending the next two decades helping build the brand into an action sports powerhouse."
+    },
+    {
+      "id": 86,
+      "category": "pws",
+      "difficulty": "hard",
+      "question": "On the People Who Surf Show, Shaun Tomson discussed his book and philosophy. What year did he win the World Title?",
+      "options": ["1975", "1976", "1977", "1978"],
+      "answer": "1977",
+      "explanation": "Shaun Tomson won the 1977 IPS World Championship and is known for redefining tube riding at Off The Wall on Oahu's North Shore."
+    },
+    {
+      "id": 87,
+      "category": "pws",
+      "difficulty": "medium",
+      "question": "The PWS episode about the '100 Wave Challenge' features Joe Sigurdson. What youth mentoring organization did he co-found?",
+      "options": ["Surfers Healing", "Stoked Mentoring", "Boys to Men", "Jimmy Miller Foundation"],
+      "answer": "Boys to Men",
+      "explanation": "Joe Sigurdson co-founded Boys to Men (B2M) in 1996, which has guided over 13,000 boys. The 100 Wave Challenge is their annual fundraiser where surfers catch 100 waves in 10 hours."
+    },
+    {
+      "id": 88,
+      "category": "pws",
+      "difficulty": "hard",
+      "question": "Nick Carroll, featured on the People Who Surf Show, is the older brother of which two-time world champion?",
+      "options": ["Mark Richards", "Wayne Bartholomew", "Tom Carroll", "Barton Lynch"],
+      "answer": "Tom Carroll",
+      "explanation": "Nick Carroll, himself a two-time Australian National Champion and former editor of Tracks magazine, is the older brother of two-time world champion Tom Carroll."
+    },
+    {
+      "id": 89,
+      "category": "pws",
+      "difficulty": "medium",
+      "question": "Chris Malloy, featured on the PWS Show, grew up in which California town before moving to the North Shore?",
+      "options": ["Santa Cruz", "Ojai", "San Clemente", "Ventura"],
+      "answer": "Ojai",
+      "explanation": "Chris Malloy and his brothers Keith and Dan grew up in Ojai, California. Chris got bitten by the surf bug at 16 and moved to the North Shore of Oahu after high school."
+    },
+    {
+      "id": 90,
+      "category": "pws",
+      "difficulty": "hard",
+      "question": "Peter King, featured on the PWS Show, created which award-winning behind-the-scenes web series about the Championship Tour?",
+      "options": ["CT Diaries", "World Tour Weekly", "Tour Notes", "Heat Sheet"],
+      "answer": "Tour Notes",
+      "explanation": "Peter King's 'Tour Notes' — described as 'a video version of a selfie' — is shot mostly on an iPhone and is considered the best behind-the-scenes World Tour documentary series."
+    },
+    {
+      "id": 91,
+      "category": "pws",
+      "difficulty": "medium",
+      "question": "Dr. Bryan Doonan, featured on the PWS Show, and his identical twin brother Kent were both what?",
+      "options": ["Pipeline Masters finalists", "National Champions", "World Title contenders", "Eddie Aikau invitees"],
+      "answer": "National Champions",
+      "explanation": "Bryan and Kent Doonan were identical twin National Champions and Quiksilver's budding pro stars in the early 90s, described as hidden heroes of the Momentum Generation."
+    },
+    {
+      "id": 92,
+      "category": "legends",
+      "difficulty": "easy",
+      "question": "Which Hawaiian surfer won three consecutive world titles and was known for his fierce rivalry with Kelly Slater before his untimely death in 2010?",
+      "options": ["Sunny Garcia", "Andy Irons", "Bruce Irons", "Tamayo Perry"],
+      "answer": "Andy Irons",
+      "explanation": "Andy Irons won three consecutive world titles (2002, 2003, 2004) and was known for his raw power and intense rivalry with Slater. He passed away in 2010 at age 32."
+    },
+    {
+      "id": 93,
+      "category": "legends",
+      "difficulty": "hard",
+      "question": "Which three-time world champion from the 1980s is often considered the greatest natural talent in surfing history?",
+      "options": ["Mark Richards", "Tom Curren", "Tom Carroll", "Shaun Tomson"],
+      "answer": "Tom Curren",
+      "explanation": "Tom Curren won three world titles (1985, 1986, 1990) and is revered for his fluid, effortless style. Many consider him the most naturally gifted surfer ever."
+    },
+    {
+      "id": 94,
+      "category": "breaks",
+      "difficulty": "hard",
+      "question": "What is the name of the submerged reef break located approximately 100 miles off the coast of San Diego, known for producing some of the largest waves in the world?",
+      "options": ["Ghost Trees", "Todos Santos", "Cortes Bank", "Isla de Todos Santos"],
+      "answer": "Cortes Bank",
+      "explanation": "Cortes Bank is an underwater seamount rising to within 3-6 feet of the ocean surface, located 100 miles offshore. It produces enormous waves that have been surfed at 60+ feet."
+    },
+    {
+      "id": 95,
+      "category": "history",
+      "difficulty": "medium",
+      "question": "Which famous writer helped popularize surfing to a mainland American audience through his writings about Hawaii in the early 1900s?",
+      "options": ["Mark Twain", "Jack London", "Ernest Hemingway", "Herman Melville"],
+      "answer": "Jack London",
+      "explanation": "Jack London wrote about surfing at Waikiki in 1907, helping introduce the sport to a wider American audience through his vivid descriptions."
+    },
+    {
+      "id": 96,
+      "category": "culture",
+      "difficulty": "medium",
+      "question": "What is the name of the 2008 documentary chronicling the South African and Australian surfers who arrived on the North Shore in the 1970s and changed professional surfing?",
+      "options": ["Riding Giants", "Momentum Generation", "Bustin' Down the Door", "Campaign"],
+      "answer": "Bustin' Down the Door",
+      "explanation": "Bustin' Down the Door (2008) tells the story of Shaun Tomson, Rabbit Bartholomew, and others who arrived on the North Shore in the 1970s and helped create the professional surfing tour."
+    },
+    {
+      "id": 97,
+      "category": "bigwave",
+      "difficulty": "medium",
+      "question": "What is the nickname for the big wave break at Punta de Lobos, Chile?",
+      "options": ["El Gringo", "The Left", "Lobos", "La Punta"],
+      "answer": "The Left",
+      "explanation": "Punta de Lobos is famous for its powerful left-hand break and has become one of South America's most celebrated big wave spots."
+    },
+    {
+      "id": 98,
+      "category": "women",
+      "difficulty": "hard",
+      "question": "Which Hawaiian surfer, known as 'Queen of Makaha,' was a beloved figure who helped preserve Hawaiian surf culture before her passing in 1998?",
+      "options": ["Margo Oberg", "Rell Sunn", "Betty Depolito", "Joyce Hoffman"],
+      "answer": "Rell Sunn",
+      "explanation": "Rell Sunn, 'Auntie Rell,' was a pioneering surfer, lifeguard, and cultural ambassador who dedicated her life to preserving Hawaiian surf traditions and mentoring youth."
+    },
+    {
+      "id": 99,
+      "category": "industry",
+      "difficulty": "medium",
+      "question": "Which company operates the artificial wave pool called the 'Surf Ranch' in Lemoore, California?",
+      "options": ["KSWC", "WSL", "Wavegarden", "Surf Lakes"],
+      "answer": "WSL",
+      "explanation": "The WSL (World Surf League) operates the Kelly Slater Wave Company's Surf Ranch in Lemoore, California, which produces a perfect artificial wave in a man-made pool."
+    },
+    {
+      "id": 100,
+      "category": "legends",
+      "difficulty": "medium",
+      "question": "Which surfer from Oahu's North Shore won back-to-back world titles in 2016 and 2017, having grown up surfing Pipeline from childhood?",
+      "options": ["Mick Fanning", "Joel Parkinson", "John John Florence", "Gabriel Medina"],
+      "answer": "John John Florence",
+      "explanation": "John John Florence grew up in a house directly on the beach at Pipeline and began surfing the wave as a small child. He won world titles in 2016 and 2017, and a third in 2024."
+    },
+    {
+      "id": 101,
+      "category": "tricks",
+      "difficulty": "easy",
+      "question": "What is the term for riding inside the hollow tube of a breaking wave?",
+      "options": ["Cutback", "Getting barreled", "Floater", "Carving"],
+      "answer": "Getting barreled",
+      "explanation": "Getting barreled (or tubed) is considered the ultimate maneuver in surfing — riding inside the hollow cylinder formed when a wave's lip pitches over the face."
+    },
+    {
+      "id": 102,
+      "category": "tricks",
+      "difficulty": "medium",
+      "question": "What is the term for when a wave breaks all at once across its length, making it unrideable?",
+      "options": ["Dumper", "Closeout", "Mushburger", "Reform"],
+      "answer": "Closeout",
+      "explanation": "A closeout breaks simultaneously along its entire length with no shoulder to ride. Surfers generally avoid closeouts as there's no clean face to surf."
+    },
+    {
+      "id": 103,
+      "category": "tricks",
+      "difficulty": "hard",
+      "question": "In WSL competition, what happens when a surfer 'needs a combo'?",
+      "options": ["They need to replace both their counting waves to win", "They need to combine two maneuvers in one wave", "They need back-to-back 10-point rides", "They need to catch a wave on priority"],
+      "answer": "They need to replace both their counting waves to win",
+      "explanation": "When a surfer 'needs a combo,' they're so far behind that improving just one wave isn't enough — they need two new higher-scoring rides to overtake the leader. It's one of the toughest positions to come back from in a heat."
+    },
+    {
+      "id": 104,
+      "category": "tricks",
+      "difficulty": "medium",
+      "question": "What does 'going over the falls' mean in surfing?",
+      "options": ["Landing a big aerial", "Getting thrown over the lip with the wave", "Surfing a waterfall wave", "Dropping in on someone"],
+      "answer": "Getting thrown over the lip with the wave",
+      "explanation": "Going over the falls is one of surfing's most dangerous wipeouts — the surfer gets stuck on the lip and is thrown over with the crashing wave, often being driven into the reef or ocean floor."
+    },
+    {
+      "id": 105,
+      "category": "tricks",
+      "difficulty": "easy",
+      "question": "What is a 'kook' in surf culture?",
+      "options": ["An expert longboarder", "An inexperienced or clueless surfer", "A surf photographer", "A board shaper apprentice"],
+      "answer": "An inexperienced or clueless surfer",
+      "explanation": "A kook is an unskilled surfer who doesn't respect surf etiquette and often endangers others in the lineup. Unlike 'grom' (a young surfer with potential), 'kook' applies regardless of age."
+    },
+    {
+      "id": 106,
+      "category": "tricks",
+      "difficulty": "hard",
+      "question": "What are the five criteria WSL judges use to score a wave?",
+      "options": ["Speed, power, flow, innovation, commitment", "Height, length, style, difficulty, landing", "Commitment/difficulty, innovation, combination, variety, speed/power/flow", "Tube time, turns, aerials, style, wave selection"],
+      "answer": "Commitment/difficulty, innovation, combination, variety, speed/power/flow",
+      "explanation": "WSL judges evaluate: (1) commitment and degree of difficulty, (2) innovative and progressive maneuvers, (3) combination of major maneuvers, (4) variety of maneuvers, and (5) speed, power, and flow."
+    },
+    {
+      "id": 107,
+      "category": "tricks",
+      "difficulty": "medium",
+      "question": "In competitive surfing, how is a surfer's heat total calculated?",
+      "options": ["Sum of all waves", "Best single wave only", "Sum of best two waves", "Average of all waves"],
+      "answer": "Sum of best two waves",
+      "explanation": "A surfer's heat total is the sum of their two highest-scoring waves, each scored out of 10 by a panel of five judges (highest and lowest scores dropped), for a maximum possible 20-point total."
+    },
+    {
+      "id": 108,
+      "category": "tricks",
+      "difficulty": "hard",
+      "question": "What penalty does a surfer receive for an interference call when they have priority?",
+      "options": ["Disqualification", "Their heat score uses only their best single wave", "A 2-point deduction", "Their worst wave is doubled"],
+      "answer": "Their heat score uses only their best single wave",
+      "explanation": "When a surfer with priority commits interference, their heat total is reduced to only their single best wave score instead of the normal two-wave total — essentially cutting their maximum possible score in half."
+    },
+    {
+      "id": 109,
+      "category": "tricks",
+      "difficulty": "easy",
+      "question": "What does 'offshore' wind mean for surf conditions?",
+      "options": ["Wind blowing from ocean toward land", "No wind at all", "Wind blowing from land toward ocean", "Swirling wind on the beach"],
+      "answer": "Wind blowing from land toward ocean",
+      "explanation": "Offshore winds blow from the land out to sea, grooming wave faces into clean, smooth walls and helping waves stand up taller before breaking. It's the ideal wind direction for surfing."
+    },
+    {
+      "id": 110,
+      "category": "tricks",
+      "difficulty": "medium",
+      "question": "What is a 'floater' in surfing?",
+      "options": ["A wipeout where you float to shore", "Riding across the top of a breaking wave", "A board that sits high in the water", "A gentle wave with no power"],
+      "answer": "Riding across the top of a breaking wave",
+      "explanation": "A floater involves surfing up and over the lip of a crumbling wave, riding horizontally across the whitewater before dropping back down to the face. It's a key transition maneuver."
+    },
+    {
+      "id": 111,
+      "category": "tricks",
+      "difficulty": "hard",
+      "question": "What Australian slang term refers to large waves breaking on an outer reef?",
+      "options": ["Bommie", "Grinder", "Chunker", "Outsider"],
+      "answer": "Bommie",
+      "explanation": "A 'bommie' (short for bombora) is Australian surf slang for a submerged reef or rock formation offshore that causes large waves to break. It refers to both the reef itself and the waves breaking on it."
+    },
+    {
+      "id": 112,
+      "category": "tricks",
+      "difficulty": "medium",
+      "question": "What is the 'pocket' of a wave?",
+      "options": ["A sheltered cove where waves don't break", "The hollow space inside a barrel", "The steepest, most powerful section near the curl", "The flat area behind the wave"],
+      "answer": "The steepest, most powerful section near the curl",
+      "explanation": "The pocket is the critical section of the wave closest to the breaking lip — where the most power is concentrated. Expert surfers surf in the pocket to generate maximum speed and power for maneuvers."
+    },
+    {
+      "id": 113,
+      "category": "breaks",
+      "difficulty": "hard",
+      "question": "Pipeline is famous as a left-hand barrel. What is the right-hand wave that breaks on the same reef called?",
+      "options": ["Off The Wall", "Backdoor", "Rocky Point", "Sunset"],
+      "answer": "Backdoor",
+      "explanation": "Backdoor is the right-breaking wave that forms on the same A-frame peak as Pipeline. It breaks over the shallowest, sharpest section of the reef and is considered by many to be even more dangerous than Pipe itself."
+    },
+    {
+      "id": 114,
+      "category": "breaks",
+      "difficulty": "hard",
+      "question": "Which surfer is credited with being the first person to ride Pipeline, in December 1961?",
+      "options": ["Greg Noll", "Phil Edwards", "Butch Van Artsdalen", "Gerry Lopez"],
+      "answer": "Phil Edwards",
+      "explanation": "Phil Edwards paddled out on a 4-foot day in December 1961, becoming the first to surf Pipeline. Bruce Brown filmed it for his movie, and the name 'Pipeline' came from a nearby construction project."
+    },
+    {
+      "id": 115,
+      "category": "history",
+      "difficulty": "hard",
+      "question": "Who won the first Pipe Masters competition, and in what year?",
+      "options": ["Gerry Lopez in 1972", "Jeff Hakman in 1971", "Rory Russell in 1973", "Shaun Tomson in 1975"],
+      "answer": "Jeff Hakman in 1971",
+      "explanation": "Jeff Hakman won the inaugural Pipeline Masters in 1971, an event founded by former world champion Fred Hemmings. It became one of the most prestigious events in professional surfing."
+    },
+    {
+      "id": 116,
+      "category": "craft",
+      "difficulty": "hard",
+      "question": "What does 'rocker' refer to in surfboard design?",
+      "options": ["The fin setup", "The bottom curve from nose to tail", "The width at the widest point", "The rail shape profile"],
+      "answer": "The bottom curve from nose to tail",
+      "explanation": "Rocker is the bottom curvature of a surfboard viewed from the side. More rocker helps fit steeper wave faces and turns tighter, while less rocker provides more speed on flatter waves."
+    },
+    {
+      "id": 117,
+      "category": "craft",
+      "difficulty": "hard",
+      "question": "Who invented the surfboard leash (initially mocked as a 'kook cord') and gave away free samples at the 1971 Malibu Invitational?",
+      "options": ["Tom Blake", "Jack O'Neill", "Pat O'Neill", "George Hennebutte"],
+      "answer": "Pat O'Neill",
+      "explanation": "Pat O'Neill (son of wetsuit pioneer Jack O'Neill) created a practical leash using surgical tubing and a suction cup in 1971. It was initially ridiculed as a 'kook cord' but quickly became essential equipment."
+    },
+    {
+      "id": 118,
+      "category": "industry",
+      "difficulty": "hard",
+      "question": "Who invented the first commercially sold surf wax? And in what year?",
+      "options": ["Mr. Zog's Sex Wax in 1972", "Mrs. Palmer's in 1968", "Sticky Bumps in 1971", "Wax Research in 1975"],
+      "answer": "Mr. Zog's Sex Wax in 1972",
+      "explanation": "Frederick Charles Herzog III and chemist Nate Skinner created Mr. Zog's Sex Wax in 1972. The provocative name was a marketing masterstroke — it became the most recognized surf wax brand in history."
+    },
+    {
+      "id": 119,
+      "category": "history",
+      "difficulty": "hard",
+      "question": "Who invented the surfboard fin, attaching a keel from a small speedboat to his board in 1935?",
+      "options": ["Dale Velzy", "Tom Blake", "Bob Simmons", "Duke Kahanamoku"],
+      "answer": "Tom Blake",
+      "explanation": "Tom Blake patented the first surfboard fin in 1935 after attaching a speedboat keel to his board. It enabled tighter turns and directional control, but took nearly 10 years to become widely adopted."
+    },
+    {
+      "id": 120,
+      "category": "legends",
+      "difficulty": "hard",
+      "question": "Which shaper made Andy Irons' boards during his three consecutive world title years (2002-2004)?",
+      "options": ["Al Merrick", "Matt Biolos", "Eric Arakawa", "Rusty Preisendorfer"],
+      "answer": "Eric Arakawa",
+      "explanation": "Eric Arakawa was Andy Irons' primary shaper during his dominant 3-peat. Legend has it that Arakawa made three boards for Pipe Masters — after Andy broke two in a duel with Slater, he used the third to clinch the title."
+    },
+    {
+      "id": 121,
+      "category": "legends",
+      "difficulty": "hard",
+      "question": "During Tom Curren's 1990 world title run, he famously switched shapers. Who shaped his boards for that campaign?",
+      "options": ["Al Merrick", "Maurice Cole", "Simon Anderson", "Pat Rawson"],
+      "answer": "Maurice Cole",
+      "explanation": "Curren rode reverse-vee boards shaped by Australian Maurice Cole during his 1990 title run — a 7'3\" and 7'8\" — winning seven consecutive events in what many consider the greatest single-season performance ever."
+    },
+    {
+      "id": 122,
+      "category": "bigwave",
+      "difficulty": "hard",
+      "question": "Who was the first woman to paddle into a wave at Jaws (Pe'ahi)?",
+      "options": ["Keala Kennelly", "Andrea Moller", "Maya Gabeira", "Paige Alms"],
+      "answer": "Andrea Moller",
+      "explanation": "Brazilian surfer Andrea Moller became the first woman to paddle into Jaws in 2007. In 2016, at age 39, she set the Guinness World Record for the largest wave ever paddle-surfed by a woman — a 42-footer at Jaws."
+    },
+    {
+      "id": 123,
+      "category": "bigwave",
+      "difficulty": "hard",
+      "question": "The Eddie Aikau Big Wave Invitational at Waimea Bay requires a minimum swell height to run. What is it?",
+      "options": ["15-foot Hawaiian", "20-foot open ocean", "25-foot faces", "30-foot Hawaiian"],
+      "answer": "20-foot open ocean",
+      "explanation": "The Eddie requires 20-foot open-ocean swells (which translates to 30-40 foot wave faces) to run. This strict requirement makes it one of the rarest events in surfing — it has only run a handful of times since its 1984 founding."
+    },
+    {
+      "id": 124,
+      "category": "ocean",
+      "difficulty": "hard",
+      "question": "In the Hawaiian wave measurement system, a '10-foot' wave has approximately what size face?",
+      "options": ["10 feet", "15 feet", "20 feet", "30 feet"],
+      "answer": "20 feet",
+      "explanation": "Hawaiians measure waves from the back, which gives roughly half the face measurement. So a '10-foot Hawaiian' wave has approximately a 20-foot face — a source of endless confusion for visiting surfers."
+    },
+    {
+      "id": 125,
+      "category": "ocean",
+      "difficulty": "medium",
+      "question": "What type of wave break is formed where a river or creek meets the ocean?",
+      "options": ["Beach break", "Point break", "Reef break", "Rivermouth break"],
+      "answer": "Rivermouth break",
+      "explanation": "Rivermouth breaks form where freshwater outflows create sandbars at the ocean's edge. They can produce excellent, consistent waves — Mundaka in Spain's Basque Country is a famous example."
+    },
+    {
+      "id": 126,
+      "category": "culture",
+      "difficulty": "hard",
+      "question": "Steve Pezman, who published Surfer Magazine for 20 years, left to co-found which premium surf journal in 1992?",
+      "options": ["Stab Magazine", "The Surfer's Journal", "Wavelength", "Eastern Surf Magazine"],
+      "answer": "The Surfer's Journal",
+      "explanation": "Steve and Debbee Pezman founded The Surfer's Journal in 1992, focusing on long-form journalism, fine art, and waterman culture. After both Surfer and Surfing magazines folded, it became the last major US surf periodical standing."
+    },
+    {
+      "id": 127,
+      "category": "industry",
+      "difficulty": "hard",
+      "question": "Which physicist at UC Berkeley actually invented the neoprene wetsuit concept, before Jack O'Neill commercialized it?",
+      "options": ["Bob Gore", "Hugh Bradner", "Bill Meistrell", "Hobie Alter"],
+      "answer": "Hugh Bradner",
+      "explanation": "UC Berkeley physicist Hugh Bradner developed the neoprene wetsuit concept in the early 1950s for the US Navy. Jack O'Neill was the first to commercially produce and popularize wetsuits for surfers."
+    },
+    {
+      "id": 128,
+      "category": "culture",
+      "difficulty": "hard",
+      "question": "The very first surfing footage ever captured was filmed in 1906 at Waikiki by a cinematographer working for whose production company?",
+      "options": ["Thomas Edison", "The Lumière Brothers", "Charlie Chaplin", "D.W. Griffith"],
+      "answer": "Thomas Edison",
+      "explanation": "In 1906, R.K. Bonine, working for Thomas Edison's film company, captured surfers at Waikiki — the earliest known surfing footage in history, decades before the surf film genre emerged."
+    },
+    {
+      "id": 129,
+      "category": "breaks",
+      "difficulty": "hard",
+      "question": "At Pipeline, which direction does the wave break when viewed from the beach?",
+      "options": ["Left to right", "Right to left", "Both directions (A-frame)", "Straight toward shore"],
+      "answer": "Left to right",
+      "explanation": "Pipeline breaks left to right as seen from the beach — making it a left-hander for the surfer (who rides toward their left). Backdoor, the right-breaking wave on the same A-frame peak, breaks in the opposite direction."
+    },
+    {
+      "id": 130,
+      "category": "legends",
+      "difficulty": "hard",
+      "question": "Who became the youngest women's WSL world champion in 2024?",
+      "options": ["Caroline Marks", "Caitlin Simmers", "Molly Picklum", "Brisa Hennessy"],
+      "answer": "Caitlin Simmers",
+      "explanation": "Caitlin Simmers won the 2024 WSL Women's World Title at just 18 years old, becoming the youngest women's champion in the modern era of professional surfing."
+    }
+  ]
+}

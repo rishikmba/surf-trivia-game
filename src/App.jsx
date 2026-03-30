@@ -671,7 +671,16 @@ const CONN_POINTS = { yellow: 100, green: 200, blue: 300, purple: 400 };
 
 // ─── Connections Screen ───
 function ConnectionsScreen({ puzzle, onFinish, onBack }) {
-  const allWords = useRef([]);
+  const [allWords] = useState(() => {
+    const words = puzzle.groups.flatMap((g) =>
+      g.words.map((w) => ({ word: w, group: g.theme, color: g.color }))
+    );
+    for (let i = words.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [words[i], words[j]] = [words[j], words[i]];
+    }
+    return words;
+  });
   const [selected, setSelected] = useState([]);
   const [solvedGroups, setSolvedGroups] = useState([]);
   const [mistakes, setMistakes] = useState(0);
@@ -680,28 +689,14 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
   const [score, setScore] = useState(0);
   const [solveOrder, setSolveOrder] = useState([]);
 
-  useEffect(() => {
-    if (allWords.current.length === 0) {
-      const words = puzzle.groups.flatMap((g) =>
-        g.words.map((w) => ({ word: w, group: g.theme, color: g.color }))
-      );
-      // Shuffle
-      for (let i = words.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [words[i], words[j]] = [words[j], words[i]];
-      }
-      allWords.current = words;
-    }
-  }, [puzzle]);
-
   const maxMistakes = 4;
-  const remainingWords = allWords.current.filter(
+  const remainingWords = allWords.filter(
     (w) => !solvedGroups.includes(w.color)
   );
 
   const toggleWord = (word) => {
     if (gameOver) return;
-    if (solvedGroups.some((c) => allWords.current.find((w) => w.word === word && w.color === c))) return;
+    if (solvedGroups.some((c) => allWords.find((w) => w.word === word && w.color === c))) return;
     setSelected((prev) =>
       prev.includes(word) ? prev.filter((w) => w !== word) : prev.length < 4 ? [...prev, word] : prev
     );
@@ -709,7 +704,7 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
 
   const handleSubmit = () => {
     if (selected.length !== 4 || gameOver) return;
-    const selectedItems = selected.map((word) => allWords.current.find((w) => w.word === word));
+    const selectedItems = selected.map((word) => allWords.find((w) => w.word === word));
     const colors = selectedItems.map((w) => w.color);
     const allSameGroup = colors.every((c) => c === colors[0]);
 
@@ -1147,6 +1142,9 @@ function DailyCompleteScreen({ onNavigate, streak, mode }) {
 
 // ─── Levels Screen ───
 function LevelsScreen({ onNavigate, onStartLevel, levelsProgress }) {
+  const totalStars = levelsProgress.reduce((sum, l) => sum + (l?.stars || 0), 0);
+  const maxStars = LEVEL_DEFS.length * 3;
+
   return (
     <div style={{ minHeight: "100vh", background: COLORS.offWhite }}>
       <div style={{
@@ -1159,7 +1157,24 @@ function LevelsScreen({ onNavigate, onStartLevel, levelsProgress }) {
         <h1 style={{ fontSize: 18, fontWeight: 700, color: COLORS.gray900, margin: 0 }}>The Paddle Out</h1>
       </div>
 
-      <div style={{ padding: 20 }}>
+      {/* Instructions */}
+      <div style={{
+        margin: "16px 20px 0", padding: "14px 18px", background: COLORS.bluePale,
+        borderRadius: 12, border: `1px solid ${COLORS.blueLight}30`,
+      }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: COLORS.blue }}>How it works</div>
+          <div style={{ fontSize: 12, color: COLORS.gray500 }}>
+            <Star size={12} color={COLORS.gold} fill={COLORS.gold} style={{ verticalAlign: -1, marginRight: 2 }} />
+            {totalStars}/{maxStars}
+          </div>
+        </div>
+        <div style={{ fontSize: 12, color: COLORS.gray700, lineHeight: 1.5 }}>
+          Complete each level to unlock the next. Score 60%+ to pass. Earn up to 3 stars per level based on accuracy. Difficulty increases from easy to master.
+        </div>
+      </div>
+
+      <div style={{ padding: "16px 20px 20px" }}>
         {LEVEL_DEFS.map((level, i) => {
           const progress = levelsProgress[i];
           const completed = progress?.completed;
@@ -1168,19 +1183,21 @@ function LevelsScreen({ onNavigate, onStartLevel, levelsProgress }) {
           const unlocked = i === 0 || prevCompleted;
 
           return (
-            <div key={level.name} style={{ display: "flex", gap: 16, marginBottom: 24 }}>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 32 }}>
+            <div key={level.name} style={{ display: "flex", gap: 14, marginBottom: 20 }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 36, flexShrink: 0 }}>
                 <div style={{
-                  width: 32, height: 32, borderRadius: "50%",
-                  background: completed ? COLORS.green : unlocked ? COLORS.blue : COLORS.gray300,
+                  width: 36, height: 36, borderRadius: "50%",
+                  background: completed ? COLORS.green : unlocked ? COLORS.blue : COLORS.gray200,
+                  border: !unlocked && !completed ? `2px dashed ${COLORS.gray300}` : "none",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  color: COLORS.white, fontSize: 14, fontWeight: 700,
+                  color: completed || unlocked ? COLORS.white : COLORS.gray500,
+                  fontSize: 14, fontWeight: 700,
                 }}>
-                  {completed ? <Check size={16} /> : unlocked ? i + 1 : <Lock size={14} />}
+                  {completed ? <Check size={16} /> : unlocked ? i + 1 : <Lock size={16} />}
                 </div>
                 {i < LEVEL_DEFS.length - 1 && (
                   <div style={{
-                    width: 2, flex: 1, minHeight: 40,
+                    width: 2, flex: 1, minHeight: 32,
                     background: completed ? COLORS.green : COLORS.gray200,
                   }} />
                 )}
@@ -1191,25 +1208,34 @@ function LevelsScreen({ onNavigate, onStartLevel, levelsProgress }) {
                 {...(unlocked ? clickable(() => onStartLevel(i)) : {})}
                 aria-disabled={!unlocked}
                 style={{
-                  flex: 1, background: COLORS.white, borderRadius: 14, padding: "16px 18px",
+                  flex: 1, background: unlocked ? COLORS.white : COLORS.gray100, borderRadius: 14, padding: "16px 18px",
                   border: `1px solid ${unlocked ? COLORS.gray200 : COLORS.gray100}`,
-                  opacity: unlocked ? 1 : 0.6,
+                  opacity: unlocked ? 1 : 0.5,
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
-                    <div style={{ fontSize: 15, fontWeight: 600, color: COLORS.gray900, marginBottom: 2 }}>
-                      {level.name}
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: COLORS.gray900 }}>
+                        {level.name}
+                      </span>
+                      {!unlocked && (
+                        <span style={{ fontSize: 10, fontWeight: 600, color: COLORS.gray500, background: COLORS.gray200, padding: "2px 6px", borderRadius: 4, textTransform: "uppercase" }}>
+                          Locked
+                        </span>
+                      )}
                     </div>
-                    <div style={{ fontSize: 12, color: COLORS.gray500 }}>{level.desc}</div>
+                    <div style={{ fontSize: 12, color: COLORS.gray500, marginTop: 2 }}>{level.desc}</div>
                   </div>
-                  {completed && (
-                    <div style={{ display: "flex", gap: 2 }}>
+                  {completed ? (
+                    <div style={{ display: "flex", gap: 2, flexShrink: 0, marginLeft: 8 }}>
                       {[1, 2, 3].map((s) => (
                         <Star key={s} size={14} color={s <= stars ? COLORS.gold : COLORS.gray200} fill={s <= stars ? COLORS.gold : "none"} />
                       ))}
                     </div>
-                  )}
+                  ) : unlocked ? (
+                    <ChevronRight size={18} color={COLORS.gray300} style={{ flexShrink: 0, marginLeft: 8 }} />
+                  ) : null}
                 </div>
               </div>
             </div>

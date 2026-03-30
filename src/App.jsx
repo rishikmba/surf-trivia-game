@@ -23,6 +23,14 @@ const CATEGORY_ICONS = {
   women: Star, tricks: Target, pws: Mic,
 };
 
+// Accessibility helper: makes a div act like a button
+const clickable = (onClick) => ({
+  onClick,
+  onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick(e); } },
+  role: "button",
+  tabIndex: 0,
+});
+
 // ─── Home Screen ───
 function HomeScreen({ onNavigate, streak, totalScore }) {
   return (
@@ -80,7 +88,7 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
 
         <div
           className="mode-card"
-          onClick={() => onNavigate("daily")}
+          {...clickable(() => onNavigate("daily"))}
           style={{
             background: `linear-gradient(135deg, ${COLORS.blue} 0%, ${COLORS.blueLight} 100%)`,
             borderRadius: 16, padding: "20px 24px", marginBottom: 12,
@@ -112,7 +120,7 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
           <div
             key={m.name}
             className="mode-card"
-            onClick={() => onNavigate(m.screen)}
+            {...clickable(() => onNavigate(m.screen))}
             style={{
               background: COLORS.white, borderRadius: 16, padding: "18px 24px", marginBottom: 12,
               border: `1px solid ${COLORS.gray200}`,
@@ -144,7 +152,7 @@ function CategoriesScreen({ onNavigate, onStartQuiz, categoryBests }) {
         background: COLORS.white, padding: "16px 20px", borderBottom: `1px solid ${COLORS.gray200}`,
         display: "flex", alignItems: "center", gap: 12,
       }}>
-        <div onClick={() => onNavigate("home")} style={{ cursor: "pointer", padding: 4 }}>
+        <div {...clickable(() => onNavigate("home"))} aria-label="Back to home" style={{ cursor: "pointer", padding: 4 }}>
           <ArrowLeft size={20} color={COLORS.gray700} />
         </div>
         <h1 style={{ fontSize: 18, fontWeight: 700, color: COLORS.gray900, margin: 0 }}>Choose a Category</h1>
@@ -160,7 +168,7 @@ function CategoriesScreen({ onNavigate, onStartQuiz, categoryBests }) {
               <div
                 key={cat.id}
                 className="category-card"
-                onClick={() => onStartQuiz(cat.id)}
+                {...clickable(() => onStartQuiz(cat.id))}
                 style={{
                   background: COLORS.white, borderRadius: 14, padding: "20px 16px",
                   border: `1px solid ${COLORS.gray200}`, textAlign: "center",
@@ -273,7 +281,7 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
         background: COLORS.white, padding: "16px 20px", borderBottom: `1px solid ${COLORS.gray200}`,
         display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
-        <div onClick={onBack} style={{ cursor: "pointer", padding: 4 }}>
+        <div {...clickable(onBack)} aria-label="Back" style={{ cursor: "pointer", padding: 4 }}>
           <ArrowLeft size={20} color={COLORS.gray700} />
         </div>
         <div style={{ textAlign: "center" }}>
@@ -369,7 +377,8 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
               <div
                 key={option}
                 className={`option-card ${answered ? "answered" : ""}`}
-                onClick={() => !answered && doAnswer(option)}
+                {...clickable(() => !answered && doAnswer(option))}
+                aria-disabled={answered}
                 style={{
                   background: bg, border: `2px solid ${border}`, borderRadius: 12,
                   padding: "14px 18px", cursor: answered ? "default" : "pointer",
@@ -566,7 +575,7 @@ function LevelsScreen({ onNavigate, onStartLevel, levelsProgress }) {
         background: COLORS.white, padding: "16px 20px", borderBottom: `1px solid ${COLORS.gray200}`,
         display: "flex", alignItems: "center", gap: 12,
       }}>
-        <div onClick={() => onNavigate("home")} style={{ cursor: "pointer", padding: 4 }}>
+        <div {...clickable(() => onNavigate("home"))} aria-label="Back to home" style={{ cursor: "pointer", padding: 4 }}>
           <ArrowLeft size={20} color={COLORS.gray700} />
         </div>
         <h1 style={{ fontSize: 18, fontWeight: 700, color: COLORS.gray900, margin: 0 }}>The Lineup</h1>
@@ -601,7 +610,8 @@ function LevelsScreen({ onNavigate, onStartLevel, levelsProgress }) {
 
               <div
                 className={`level-card ${unlocked ? "unlocked" : ""}`}
-                onClick={() => unlocked && onStartLevel(i)}
+                {...(unlocked ? clickable(() => onStartLevel(i)) : {})}
+                aria-disabled={!unlocked}
                 style={{
                   flex: 1, background: COLORS.white, borderRadius: 14, padding: "16px 18px",
                   border: `1px solid ${unlocked ? COLORS.gray200 : COLORS.gray100}`,
@@ -642,7 +652,7 @@ function LeaderboardScreen({ onNavigate, streak, totalScore, categoryBests, leve
         background: COLORS.white, padding: "16px 20px", borderBottom: `1px solid ${COLORS.gray200}`,
         display: "flex", alignItems: "center", gap: 12,
       }}>
-        <div onClick={() => onNavigate("home")} style={{ cursor: "pointer", padding: 4 }}>
+        <div {...clickable(() => onNavigate("home"))} aria-label="Back to home" style={{ cursor: "pointer", padding: 4 }}>
           <ArrowLeft size={20} color={COLORS.gray700} />
         </div>
         <h1 style={{ fontSize: 18, fontWeight: 700, color: COLORS.gray900, margin: 0 }}>Your Stats</h1>

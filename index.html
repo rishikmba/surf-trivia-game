@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/surf-trivia-game/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Test your surf knowledge with 130+ trivia questions across 11 categories. Daily challenges, progressive levels, and more. From the People Who Surf Show." />
     <meta name="theme-color" content="#273990" />
@@ -30,7 +31,12 @@
     <title>Surf Trivia — People Who Surf</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="loading" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#273990 0%,#1C2A6B 100%);flex-direction:column;gap:16px;">
+        <img src="/surf-trivia-game/pws-logo.png" alt="" style="width:64px;height:64px;border-radius:50%;opacity:0.9;" />
+        <div style="color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;font-size:14px;">Loading...</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

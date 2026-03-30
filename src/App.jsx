@@ -249,7 +249,7 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
     setConsecutiveCorrect(isCorrect ? consecutiveCorrect + 1 : 0);
     setTotalPoints((p) => p + points);
     setScores((s) => [...s, points]);
-    setResults((r) => [...r, { correct: isCorrect, points, questionId: question.id }]);
+    setResults((r) => [...r, { correct: isCorrect, points, questionId: question.id, selected: option, answer: question.answer, questionText: question.question, explanation: question.explanation }]);
   };
 
   const handleNext = () => {
@@ -446,6 +446,7 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
 // ─── Results Screen ───
 function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) {
   const [copied, setCopied] = useState(false);
+  const [showReview, setShowReview] = useState(false);
   const { totalPoints, correctCount, totalQuestions } = result;
   const maxPoints = totalQuestions * 150; // 100 base + up to 1.5x streak
 
@@ -530,10 +531,6 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
           </div>
         </div>
 
-        {/* Emoji result grid */}
-        <div style={{ marginTop: 16, textAlign: "center" }}>
-          <div style={{ fontSize: 20, letterSpacing: 2, lineHeight: 1.4 }}>{emojiGrid}</div>
-        </div>
       </div>
 
       <div style={{ padding: "24px 20px" }}>
@@ -560,6 +557,75 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
           >
             {copied ? <><Check size={16} /> Copied! Send it to your crew</> : <><Share2 size={16} /> Share Score</>}
           </button>
+        </div>
+
+        {/* Review Answers */}
+        <div style={{
+          background: COLORS.white, borderRadius: 14,
+          border: `1px solid ${COLORS.gray200}`, marginBottom: 12, overflow: "hidden",
+        }}>
+          <div
+            {...clickable(() => setShowReview(!showReview))}
+            style={{
+              padding: "16px 20px", cursor: "pointer",
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <BarChart3 size={16} color={COLORS.gray500} />
+              <span style={{ fontSize: 14, fontWeight: 600, color: COLORS.gray900 }}>Review Answers</span>
+            </div>
+            <ChevronRight
+              size={18}
+              color={COLORS.gray400}
+              style={{
+                transform: showReview ? "rotate(90deg)" : "rotate(0deg)",
+                transition: "transform 0.2s ease",
+              }}
+            />
+          </div>
+
+          {showReview && (
+            <div style={{ borderTop: `1px solid ${COLORS.gray100}` }}>
+              {result.results.map((r, i) => (
+                <div key={i} style={{
+                  padding: "14px 20px",
+                  borderBottom: i < result.results.length - 1 ? `1px solid ${COLORS.gray100}` : "none",
+                }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+                    <div style={{
+                      width: 22, minWidth: 22, height: 22, borderRadius: "50%",
+                      background: r.correct ? COLORS.green : COLORS.red,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      marginTop: 1, flexShrink: 0,
+                    }}>
+                      {r.correct
+                        ? <Check size={12} color={COLORS.white} />
+                        : <X size={12} color={COLORS.white} />}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: COLORS.gray900, lineHeight: 1.4, marginBottom: 6 }}>
+                        {r.questionText}
+                      </div>
+                      {!r.correct && (
+                        <div style={{ fontSize: 12, color: COLORS.red, marginBottom: 4 }}>
+                          Your answer: {r.selected || "Time expired"}
+                        </div>
+                      )}
+                      <div style={{ fontSize: 12, color: r.correct ? COLORS.green : COLORS.gray700, fontWeight: 500 }}>
+                        {r.correct ? "Correct!" : `Answer: ${r.answer}`}
+                      </div>
+                      {r.explanation && (
+                        <div style={{ fontSize: 12, color: COLORS.gray500, marginTop: 4, lineHeight: 1.4, fontStyle: "italic" }}>
+                          {r.explanation}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div style={{ display: "flex", gap: 10 }}>

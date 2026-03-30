@@ -5,6 +5,8 @@ const KEYS = {
   levelsProgress: "pws_levels_progress",
   totalScore: "pws_total_score",
   username: "pws_username",
+  connectionsHistory: "pws_connections_history",
+  connectionsStreak: "pws_connections_streak",
 };
 
 function get(key, fallback) {
@@ -123,4 +125,39 @@ export function getUsername() {
 
 export function setUsername(name) {
   set(KEYS.username, name);
+}
+
+// ─── Connections ───
+
+export function getConnectionsHistory() {
+  return get(KEYS.connectionsHistory, []);
+}
+
+export function saveConnectionsResult(dateKey, result) {
+  const history = getConnectionsHistory();
+  if (history.find((h) => h.date === dateKey)) return;
+  history.push({ date: dateKey, ...result });
+  set(KEYS.connectionsHistory, history);
+}
+
+export function hasPlayedConnections(dateKey) {
+  return getConnectionsHistory().some((h) => h.date === dateKey);
+}
+
+export function getConnectionsStreak() {
+  return get(KEYS.connectionsStreak, { count: 0, lastDate: null });
+}
+
+export function updateConnectionsStreak() {
+  const today = getLocalDateStr();
+  const streak = getConnectionsStreak();
+  if (streak.lastDate === today) return streak;
+
+  const yest = new Date();
+  yest.setDate(yest.getDate() - 1);
+  const yesterday = getLocalDateStr(yest);
+  const newCount = streak.lastDate === yesterday ? streak.count + 1 : 1;
+  const updated = { count: newCount, lastDate: today };
+  set(KEYS.connectionsStreak, updated);
+  return updated;
 }

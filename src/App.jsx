@@ -2,17 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import {
   Trophy, MapPin, Clock, Film, Wrench, Waves, Mountain, Briefcase,
   Star, Target, Mic, ChevronRight, ArrowLeft, Check, X, Share2,
-  BarChart3, Play, Calendar, Zap, Lock, Award, Heart,
+  BarChart3, Play, Calendar, Zap, Lock, Award, Heart, LayoutGrid,
 } from "lucide-react";
 import { COLORS, CATEGORY_META, LEVEL_DEFS } from "./constants";
 import {
   getDailyQuestions, getCategoryQuestions, getLevelQuestions,
   calculateScore, getStreakMultiplier, getCategories, getDayNumber,
+  getDailyConnection,
 } from "./gameEngine";
 import {
   getDailyStreak, updateDailyStreak, saveDailyResult, hasPlayedDaily,
   getDailyHistory, getCategoryBest, saveCategoryBest, getLevelsProgress,
   saveLevelResult, getTotalScore, addToTotalScore, getLocalToday,
+  hasPlayedConnections, saveConnectionsResult, updateConnectionsStreak,
+  getConnectionsHistory,
 } from "./storage";
 import pwsLogo from "/pws-logo.png";
 import "./App.css";
@@ -71,7 +74,7 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
         {[
           { label: "Streak", value: streak.count || 0, icon: Zap },
           { label: "Best Score", value: totalScore, icon: Trophy },
-          { label: "Questions", value: "130+", icon: BarChart3 },
+          { label: "Questions", value: "170+", icon: BarChart3 },
         ].map(({ label, value, icon: Icon }) => (
           <div key={label} style={{ textAlign: "center" }}>
             <Icon size={16} color={COLORS.blue} style={{ marginBottom: 4 }} />
@@ -113,8 +116,9 @@ function HomeScreen({ onNavigate, streak, totalScore }) {
         </div>
 
         {[
-          { name: "Quick Quiz", desc: "Pick a category \u00b7 10 questions \u00b7 Beat your best", icon: Zap, color: COLORS.gold, screen: "categories" },
-          { name: "The Lineup", desc: "Progressive levels \u00b7 Unlock harder challenges \u00b7 Earn stars", icon: Award, color: COLORS.green, screen: "levels" },
+          { name: "Surf Connections", desc: "Find the 4 hidden groups \u00b7 New puzzle daily", icon: LayoutGrid, color: COLORS.blueLight, screen: "connections" },
+          { name: "Pick Your Break", desc: "Choose a category \u00b7 10 questions \u00b7 Beat your best", icon: MapPin, color: COLORS.gold, screen: "categories" },
+          { name: "The Paddle Out", desc: "Paddle from Whitewash to Legends Only \u00b7 6 levels", icon: Award, color: COLORS.green, screen: "levels" },
           { name: "Your Stats", desc: "Scores, streaks, and personal bests", icon: BarChart3, color: COLORS.blue, screen: "leaderboard" },
         ].map((m) => (
           <div
@@ -655,13 +659,378 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
   );
 }
 
+// ─── Connections Colors ───
+const CONN_COLORS = {
+  yellow: { bg: "#F9DF6D", text: "#1A1F2B" },
+  green: { bg: "#6AAA64", text: "#FFFFFF" },
+  blue: { bg: "#85C0F9", text: "#1A1F2B" },
+  purple: { bg: "#B380D0", text: "#FFFFFF" },
+};
+const CONN_ORDER = ["yellow", "green", "blue", "purple"];
+const CONN_POINTS = { yellow: 100, green: 200, blue: 300, purple: 400 };
+
+// ─── Connections Screen ───
+function ConnectionsScreen({ puzzle, onFinish, onBack }) {
+  const allWords = useRef([]);
+  const [selected, setSelected] = useState([]);
+  const [solvedGroups, setSolvedGroups] = useState([]);
+  const [mistakes, setMistakes] = useState(0);
+  const [shaking, setShaking] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [solveOrder, setSolveOrder] = useState([]);
+
+  useEffect(() => {
+    if (allWords.current.length === 0) {
+      const words = puzzle.groups.flatMap((g) =>
+        g.words.map((w) => ({ word: w, group: g.theme, color: g.color }))
+      );
+      // Shuffle
+      for (let i = words.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [words[i], words[j]] = [words[j], words[i]];
+      }
+      allWords.current = words;
+    }
+  }, [puzzle]);
+
+  const maxMistakes = 4;
+  const remainingWords = allWords.current.filter(
+    (w) => !solvedGroups.includes(w.color)
+  );
+
+  const toggleWord = (word) => {
+    if (gameOver) return;
+    if (solvedGroups.some((c) => allWords.current.find((w) => w.word === word && w.color === c))) return;
+    setSelected((prev) =>
+      prev.includes(word) ? prev.filter((w) => w !== word) : prev.length < 4 ? [...prev, word] : prev
+    );
+  };
+
+  const handleSubmit = () => {
+    if (selected.length !== 4 || gameOver) return;
+    const selectedItems = selected.map((word) => allWords.current.find((w) => w.word === word));
+    const colors = selectedItems.map((w) => w.color);
+    const allSameGroup = colors.every((c) => c === colors[0]);
+
+    if (allSameGroup) {
+      const color = colors[0];
+      const groupPoints = CONN_POINTS[color];
+      const newSolved = [...solvedGroups, color];
+      const newOrder = [...solveOrder, color];
+      let newScore = score + groupPoints;
+
+      // Bonus for solving all 4
+      if (newSolved.length === 4) {
+        newScore += 200;
+      }
+
+      setSolvedGroups(newSolved);
+      setSolveOrder(newOrder);
+      setScore(newScore);
+      setSelected([]);
+
+      if (newSolved.length === 4) {
+        setGameOver(true);
+        onFinish({ score: newScore, mistakes, solveOrder: newOrder, completed: true });
+      }
+    } else {
+      const newMistakes = mistakes + 1;
+      const newScore = score - 50;
+      setMistakes(newMistakes);
+      setScore(newScore);
+      setShaking(true);
+      setTimeout(() => setShaking(false), 500);
+      setSelected([]);
+
+      if (newMistakes >= maxMistakes) {
+        setGameOver(true);
+        // Reveal remaining groups
+        const remaining = CONN_ORDER.filter((c) => !solvedGroups.includes(c));
+        const finalOrder = [...solveOrder, ...remaining.map((c) => `missed_${c}`)];
+        onFinish({ score: newScore, mistakes: newMistakes, solveOrder: finalOrder, completed: false });
+      }
+    }
+  };
+
+  const dayNumber = getDayNumber();
+
+  return (
+    <div style={{ minHeight: "100vh", background: COLORS.offWhite }}>
+      <div style={{
+        background: COLORS.white, padding: "16px 20px", borderBottom: `1px solid ${COLORS.gray200}`,
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+      }}>
+        <div {...clickable(onBack)} aria-label="Back" style={{ cursor: "pointer", padding: 4 }}>
+          <ArrowLeft size={20} color={COLORS.gray700} />
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 11, color: COLORS.gray500, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            Surf Connections
+          </div>
+          <div style={{ fontSize: 14, fontWeight: 600, color: COLORS.gray900 }}>
+            Puzzle #{dayNumber}
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 4 }}>
+          {Array.from({ length: maxMistakes }).map((_, i) => (
+            <div key={i} style={{
+              width: 10, height: 10, borderRadius: "50%",
+              background: i < maxMistakes - mistakes ? COLORS.gray900 : COLORS.gray200,
+              transition: "background 0.3s",
+            }} />
+          ))}
+        </div>
+      </div>
+
+      <div style={{ padding: "16px 16px 24px" }}>
+        <p style={{ fontSize: 13, color: COLORS.gray500, textAlign: "center", marginBottom: 16 }}>
+          Find groups of 4 that share something in common
+        </p>
+
+        {/* Solved groups */}
+        {solvedGroups.map((color) => {
+          const group = puzzle.groups.find((g) => g.color === color);
+          return (
+            <div key={color} className="slide-up" style={{
+              background: CONN_COLORS[color].bg, borderRadius: 12,
+              padding: "12px 16px", marginBottom: 8, textAlign: "center",
+            }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: CONN_COLORS[color].text, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                {group.theme}
+              </div>
+              <div style={{ fontSize: 14, color: CONN_COLORS[color].text, opacity: 0.85, marginTop: 2 }}>
+                {group.words.join(", ")}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Remaining word grid */}
+        {!gameOver && (
+          <div style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 6,
+            marginTop: solvedGroups.length > 0 ? 8 : 0,
+          }}>
+            {remainingWords.map(({ word }) => {
+              const isSelected = selected.includes(word);
+              return (
+                <div
+                  key={word}
+                  {...clickable(() => toggleWord(word))}
+                  className={shaking && isSelected ? "shake" : ""}
+                  style={{
+                    padding: "12px 4px", borderRadius: 10, textAlign: "center",
+                    fontSize: 12, fontWeight: 600, cursor: "pointer",
+                    transition: "all 0.15s ease",
+                    background: isSelected ? COLORS.blue : COLORS.white,
+                    color: isSelected ? COLORS.white : COLORS.gray900,
+                    border: `2px solid ${isSelected ? COLORS.blue : COLORS.gray200}`,
+                    userSelect: "none",
+                  }}
+                >
+                  {word}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Game over — reveal remaining */}
+        {gameOver && solvedGroups.length < 4 && (
+          CONN_ORDER.filter((c) => !solvedGroups.includes(c)).map((color) => {
+            const group = puzzle.groups.find((g) => g.color === color);
+            return (
+              <div key={color} className="fade-in" style={{
+                background: CONN_COLORS[color].bg, borderRadius: 12,
+                padding: "12px 16px", marginBottom: 8, textAlign: "center", opacity: 0.6,
+              }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: CONN_COLORS[color].text, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  {group.theme}
+                </div>
+                <div style={{ fontSize: 14, color: CONN_COLORS[color].text, opacity: 0.85, marginTop: 2 }}>
+                  {group.words.join(", ")}
+                </div>
+              </div>
+            );
+          })
+        )}
+
+        {/* Submit / deselect */}
+        {!gameOver && (
+          <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
+            <button
+              onClick={() => setSelected([])}
+              disabled={selected.length === 0}
+              style={{
+                flex: 1, padding: "14px", background: COLORS.white, color: COLORS.gray700,
+                border: `1px solid ${COLORS.gray200}`, borderRadius: 12, fontSize: 14,
+                fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif",
+                opacity: selected.length === 0 ? 0.5 : 1,
+              }}
+            >
+              Deselect All
+            </button>
+            <button
+              className="btn-primary"
+              onClick={handleSubmit}
+              disabled={selected.length !== 4}
+              style={{
+                flex: 1, padding: "14px", background: selected.length === 4 ? COLORS.blue : COLORS.gray200,
+                color: selected.length === 4 ? COLORS.white : COLORS.gray500,
+                borderRadius: 12, fontSize: 14, fontWeight: 600,
+                cursor: selected.length === 4 ? "pointer" : "default",
+              }}
+            >
+              Submit
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Connections Results Screen ───
+function ConnectionsResultsScreen({ result, onHome, onNavigate }) {
+  const [copied, setCopied] = useState(false);
+  const dayNumber = getDayNumber();
+
+  const emojiMap = { yellow: "🟨", green: "🟩", blue: "🟦", purple: "🟪" };
+
+  const emojiRows = result.solveOrder.map((color) => {
+    const clean = color.replace("missed_", "");
+    const wasMissed = color.startsWith("missed_");
+    return wasMissed ? "⬜⬜⬜⬜" : `${emojiMap[clean]}${emojiMap[clean]}${emojiMap[clean]}${emojiMap[clean]}`;
+  }).join("\n");
+
+  const shareText = `🏄 PWS Surf Connections #${dayNumber}\n${emojiRows}\nMistakes: ${result.mistakes}/4\n\nThink you can do better? 👇\nhttps://rishikmba.github.io/surf-trivia-game/`;
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try { await navigator.share({ text: shareText }); return; } catch {}
+    }
+    try {
+      await navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {}
+  };
+
+  const maxScore = 1200;
+  const emoji = result.completed ? (result.mistakes === 0 ? "🏆" : "🤙") : "🌊";
+  const message = result.completed
+    ? (result.mistakes === 0 ? "Perfect!" : "Nice work!")
+    : "Better luck tomorrow!";
+
+  return (
+    <div style={{ minHeight: "100vh", background: COLORS.offWhite }}>
+      <div style={{
+        background: `linear-gradient(135deg, ${COLORS.blue} 0%, ${COLORS.blueDark} 100%)`,
+        padding: "40px 24px 56px", textAlign: "center",
+      }}>
+        <div style={{ fontSize: 48, marginBottom: 8 }}>{emoji}</div>
+        <h1 style={{ color: COLORS.white, fontSize: 28, fontWeight: 700, margin: "0 0 4px" }}>
+          {message}
+        </h1>
+        <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, margin: 0 }}>
+          Surf Connections #{dayNumber}
+        </p>
+      </div>
+
+      <div className="slide-up" style={{
+        margin: "-32px 20px 0", background: COLORS.white, borderRadius: 16,
+        padding: 24, boxShadow: "0 4px 20px rgba(0,0,0,0.08)", position: "relative", zIndex: 2,
+      }}>
+        <div style={{ display: "flex", justifyContent: "space-around", textAlign: "center" }}>
+          <div>
+            <div style={{ fontSize: 32, fontWeight: 700, color: COLORS.blue }}>{Math.max(result.score, 0)}</div>
+            <div style={{ fontSize: 12, color: COLORS.gray500 }}>Points</div>
+          </div>
+          <div style={{ width: 1, background: COLORS.gray200 }} />
+          <div>
+            <div style={{ fontSize: 32, fontWeight: 700, color: result.completed ? COLORS.green : COLORS.red }}>
+              {result.solveOrder.filter((c) => !c.startsWith("missed_")).length}/4
+            </div>
+            <div style={{ fontSize: 12, color: COLORS.gray500 }}>Groups Found</div>
+          </div>
+          <div style={{ width: 1, background: COLORS.gray200 }} />
+          <div>
+            <div style={{ fontSize: 32, fontWeight: 700, color: result.mistakes === 0 ? COLORS.gold : COLORS.gray700 }}>
+              {result.mistakes}
+            </div>
+            <div style={{ fontSize: 12, color: COLORS.gray500 }}>Mistakes</div>
+          </div>
+        </div>
+
+        {/* Emoji grid preview */}
+        <div style={{ marginTop: 16, textAlign: "center", whiteSpace: "pre-line", fontSize: 20, lineHeight: 1.6 }}>
+          {emojiRows}
+        </div>
+      </div>
+
+      <div style={{ padding: "24px 20px" }}>
+        <div style={{
+          background: COLORS.white, borderRadius: 14, padding: "20px",
+          border: `1px solid ${COLORS.gray200}`, marginBottom: 12, textAlign: "center",
+        }}>
+          <div style={{ fontSize: 15, fontWeight: 600, color: COLORS.gray900, marginBottom: 4 }}>
+            Challenge your friends 🤙
+          </div>
+          <p style={{ fontSize: 13, color: COLORS.gray500, margin: "0 0 16px", lineHeight: 1.4 }}>
+            Share your puzzle and see how they do
+          </p>
+          <button
+            className="btn-primary"
+            onClick={handleShare}
+            style={{
+              width: "100%", padding: "14px",
+              background: copied ? COLORS.green : COLORS.blue,
+              color: COLORS.white, borderRadius: 12, fontSize: 15, fontWeight: 600,
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            }}
+          >
+            {copied ? <><Check size={16} /> Copied!</> : <><Share2 size={16} /> Share Results</>}
+          </button>
+        </div>
+
+        <div style={{ display: "flex", gap: 10 }}>
+          <button
+            onClick={() => onNavigate("leaderboard")}
+            style={{
+              flex: 1, padding: "14px", background: COLORS.white, color: COLORS.blue,
+              border: `1px solid ${COLORS.gray200}`, borderRadius: 12, fontSize: 14,
+              fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif",
+            }}
+          >
+            Stats
+          </button>
+          <button
+            onClick={onHome}
+            style={{
+              flex: 1, padding: "14px", background: COLORS.white, color: COLORS.gray700,
+              border: `1px solid ${COLORS.gray200}`, borderRadius: 12, fontSize: 14,
+              fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif",
+            }}
+          >
+            Home
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Daily Complete Screen ───
-function DailyCompleteScreen({ onNavigate, streak }) {
+function DailyCompleteScreen({ onNavigate, streak, mode }) {
   const [countdown, setCountdown] = useState("");
   const today = getLocalToday();
-  const history = getDailyHistory();
+  const isConnections = mode === "connections";
+  const history = isConnections ? getConnectionsHistory() : getDailyHistory();
   const todayResult = history.find((h) => h.date === today);
   const dayNumber = getDayNumber();
+  const title = isConnections ? "Connections Complete!" : "Daily Challenge Complete!";
+  const subtitle = isConnections ? "Puzzle" : "Day";
 
   useEffect(() => {
     const tick = () => {
@@ -686,10 +1055,10 @@ function DailyCompleteScreen({ onNavigate, streak }) {
       }}>
         <div style={{ fontSize: 48, marginBottom: 8 }}>✅</div>
         <h1 style={{ color: COLORS.white, fontSize: 24, fontWeight: 700, margin: "0 0 4px" }}>
-          Daily Challenge Complete!
+          {title}
         </h1>
         <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, margin: 0 }}>
-          Day #{dayNumber} — You already crushed it today
+          {subtitle} #{dayNumber} — You already crushed it today
         </p>
       </div>
 
@@ -700,13 +1069,17 @@ function DailyCompleteScreen({ onNavigate, streak }) {
         {todayResult && (
           <div style={{ display: "flex", justifyContent: "space-around", textAlign: "center", marginBottom: 20 }}>
             <div>
-              <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.blue }}>{todayResult.score}</div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.blue }}>{Math.max(todayResult.score, 0)}</div>
               <div style={{ fontSize: 12, color: COLORS.gray500 }}>Points</div>
             </div>
             <div style={{ width: 1, background: COLORS.gray200 }} />
             <div>
-              <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.green }}>{todayResult.correct}/{todayResult.total}</div>
-              <div style={{ fontSize: 12, color: COLORS.gray500 }}>Correct</div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.green }}>
+                {isConnections
+                  ? `${todayResult.solveOrder ? todayResult.solveOrder.filter((c) => !c.startsWith("missed_")).length : 0}/4`
+                  : `${todayResult.correct}/${todayResult.total}`}
+              </div>
+              <div style={{ fontSize: 12, color: COLORS.gray500 }}>{isConnections ? "Groups" : "Correct"}</div>
             </div>
             <div style={{ width: 1, background: COLORS.gray200 }} />
             <div>
@@ -733,8 +1106,8 @@ function DailyCompleteScreen({ onNavigate, streak }) {
           Keep playing
         </div>
         {[
-          { name: "Quick Quiz", desc: "Pick a category and test your knowledge", icon: Zap, color: COLORS.gold, screen: "categories" },
-          { name: "The Lineup", desc: "Progressive levels — earn stars", icon: Award, color: COLORS.green, screen: "levels" },
+          { name: "Pick Your Break", desc: "Choose a category and test your knowledge", icon: MapPin, color: COLORS.gold, screen: "categories" },
+          { name: "The Paddle Out", desc: "Progressive levels — earn stars", icon: Award, color: COLORS.green, screen: "levels" },
         ].map((m) => (
           <div
             key={m.name}
@@ -783,7 +1156,7 @@ function LevelsScreen({ onNavigate, onStartLevel, levelsProgress }) {
         <div {...clickable(() => onNavigate("home"))} aria-label="Back to home" style={{ cursor: "pointer", padding: 4 }}>
           <ArrowLeft size={20} color={COLORS.gray700} />
         </div>
-        <h1 style={{ fontSize: 18, fontWeight: 700, color: COLORS.gray900, margin: 0 }}>The Lineup</h1>
+        <h1 style={{ fontSize: 18, fontWeight: 700, color: COLORS.gray900, margin: 0 }}>The Paddle Out</h1>
       </div>
 
       <div style={{ padding: 20 }}>
@@ -949,7 +1322,7 @@ export default function App() {
   const startQuiz = (categoryId) => {
     const questions = getCategoryQuestions(categoryId);
     const cat = getCategories().find((c) => c.id === categoryId);
-    setGameState({ questions, mode: "quiz", modeLabel: cat?.name || "Quick Quiz", timerDuration: 25, categoryId });
+    setGameState({ questions, mode: "quiz", modeLabel: cat?.name || "Pick Your Break", timerDuration: 25, categoryId });
     setScreen("playing");
   };
 
@@ -988,9 +1361,32 @@ export default function App() {
     refreshStats();
   };
 
+  const startConnections = () => {
+    const today = getLocalToday();
+    if (hasPlayedConnections(today)) {
+      setScreen("connectionsComplete");
+      return;
+    }
+    const puzzle = getDailyConnection(today);
+    if (!puzzle) return;
+    setGameState({ puzzle, mode: "connections", dateKey: today });
+    setScreen("playingConnections");
+  };
+
+  const handleConnectionsFinish = (connResult) => {
+    const today = getLocalToday();
+    if (connResult.score > 0) addToTotalScore(connResult.score);
+    updateConnectionsStreak();
+    saveConnectionsResult(today, connResult);
+    refreshStats();
+    setResult(connResult);
+    setScreen("connectionsResults");
+  };
+
   const navigate = (s) => {
     if (s === "home") { goHome(); return; }
     if (s === "daily") { startDaily(); return; }
+    if (s === "connections") { startConnections(); return; }
     setScreen(s);
   };
 
@@ -1025,6 +1421,23 @@ export default function App() {
           onHome={goHome}
           onNavigate={navigate}
         />
+      )}
+      {screen === "playingConnections" && gameState?.puzzle && (
+        <ConnectionsScreen
+          puzzle={gameState.puzzle}
+          onFinish={handleConnectionsFinish}
+          onBack={goHome}
+        />
+      )}
+      {screen === "connectionsResults" && result && (
+        <ConnectionsResultsScreen
+          result={result}
+          onHome={goHome}
+          onNavigate={navigate}
+        />
+      )}
+      {screen === "connectionsComplete" && (
+        <DailyCompleteScreen onNavigate={navigate} streak={streak} mode="connections" />
       )}
       {screen === "dailyComplete" && (
         <DailyCompleteScreen onNavigate={navigate} streak={streak} />

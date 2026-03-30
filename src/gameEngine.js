@@ -51,21 +51,41 @@ export function getCategoryQuestions(categoryId, count = 10) {
 }
 
 export function getLevelQuestions(levelIndex) {
-  const difficulties = ["easy", "medium", "hard", "hard", "hard", "hard"];
-  const diff = difficulties[levelIndex] || "hard";
-
   let pool;
-  if (levelIndex <= 2) {
-    pool = triviaData.questions.filter((q) => q.difficulty === diff);
-  } else {
-    // Higher levels mix difficulties, biased toward hard
+  if (levelIndex === 0) {
+    pool = triviaData.questions.filter((q) => q.difficulty === "easy");
+  } else if (levelIndex === 1) {
+    pool = triviaData.questions.filter((q) => q.difficulty === "medium");
+  } else if (levelIndex === 2) {
+    pool = triviaData.questions.filter((q) => q.difficulty === "hard");
+  } else if (levelIndex === 3) {
+    // The Peak: expert + hard mix
     pool = triviaData.questions.filter(
-      (q) => q.difficulty === "hard" || q.difficulty === "medium"
+      (q) => q.difficulty === "expert" || q.difficulty === "hard"
     );
+  } else if (levelIndex === 4) {
+    // The Barrel: expert + master
+    pool = triviaData.questions.filter(
+      (q) => q.difficulty === "master" || q.difficulty === "expert"
+    );
+  } else {
+    // Legends Only: master only
+    pool = triviaData.questions.filter((q) => q.difficulty === "master");
   }
 
   const rng = seededRandom("level" + levelIndex + Date.now().toString());
   return shuffle(pool, rng).slice(0, 15);
+}
+
+export function getConnections() {
+  return triviaData.connections || [];
+}
+
+export function getDailyConnection(dateStr) {
+  const puzzles = triviaData.connections || [];
+  if (puzzles.length === 0) return null;
+  const dayIndex = getDayNumber() % puzzles.length;
+  return puzzles[dayIndex];
 }
 
 export function calculateScore(isCorrect, timeRemaining, timerDuration) {

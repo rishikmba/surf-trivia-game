@@ -684,10 +684,14 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
   const [selected, setSelected] = useState([]);
   const [solvedGroups, setSolvedGroups] = useState([]);
   const [mistakes, setMistakes] = useState(0);
-  const [shaking, setShaking] = useState(false);
+  const [wrongFlash, setWrongFlash] = useState(false);
+  const [feedbackMsg, setFeedbackMsg] = useState(null);
   const [gameOver, setGameOver] = useState(false);
+  const [showingResults, setShowingResults] = useState(false);
   const [score, setScore] = useState(0);
   const [solveOrder, setSolveOrder] = useState([]);
+  const [prevGuesses, setPrevGuesses] = useState([]);
+  const [locked, setLocked] = useState(false);
 
   const maxMistakes = 4;
   const remainingWords = allWords.filter(
@@ -695,15 +699,28 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
   );
 
   const toggleWord = (word) => {
-    if (gameOver) return;
-    if (solvedGroups.some((c) => allWords.find((w) => w.word === word && w.color === c))) return;
+    if (gameOver || locked) return;
     setSelected((prev) =>
       prev.includes(word) ? prev.filter((w) => w !== word) : prev.length < 4 ? [...prev, word] : prev
     );
   };
 
+  const showFeedback = (msg, duration = 1500) => {
+    setFeedbackMsg(msg);
+    setTimeout(() => setFeedbackMsg(null), duration);
+  };
+
   const handleSubmit = () => {
-    if (selected.length !== 4 || gameOver) return;
+    if (selected.length !== 4 || gameOver || locked) return;
+
+    // Check for duplicate guess
+    const sortedGuess = [...selected].sort().join("|");
+    if (prevGuesses.includes(sortedGuess)) {
+      showFeedback("Already guessed!");
+      return;
+    }
+    setPrevGuesses((prev) => [...prev, sortedGuess]);
+
     const selectedItems = selected.map((word) => allWords.find((w) => w.word === word));
     const colors = selectedItems.map((w) => w.color);
     const allSameGroup = colors.every((c) => c === colors[0]);
@@ -715,10 +732,7 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
       const newOrder = [...solveOrder, color];
       let newScore = score + groupPoints;
 
-      // Bonus for solving all 4
-      if (newSolved.length === 4) {
-        newScore += 200;
-      }
+      if (newSolved.length === 4) newScore += 200;
 
       setSolvedGroups(newSolved);
       setSolveOrder(newOrder);
@@ -727,24 +741,46 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
 
       if (newSolved.length === 4) {
         setGameOver(true);
-        onFinish({ score: newScore, mistakes, solveOrder: newOrder, completed: true });
+        setTimeout(() => {
+          onFinish({ score: newScore, mistakes, solveOrder: newOrder, completed: true, puzzle });
+        }, 800);
       }
     } else {
-      const newMistakes = mistakes + 1;
-      const newScore = score - 50;
-      setMistakes(newMistakes);
-      setScore(newScore);
-      setShaking(true);
-      setTimeout(() => setShaking(false), 500);
-      setSelected([]);
+      // Check for "one away" — 3 of 4 from same group
+      const colorCounts = {};
+      colors.forEach((c) => { colorCounts[c] = (colorCounts[c] || 0) + 1; });
+      const maxSame = Math.max(...Object.values(colorCounts));
+      const isOneAway = maxSame === 3;
 
-      if (newMistakes >= maxMistakes) {
-        setGameOver(true);
-        // Reveal remaining groups
-        const remaining = CONN_ORDER.filter((c) => !solvedGroups.includes(c));
-        const finalOrder = [...solveOrder, ...remaining.map((c) => `missed_${c}`)];
-        onFinish({ score: newScore, mistakes: newMistakes, solveOrder: finalOrder, completed: false });
-      }
+      setLocked(true);
+      setWrongFlash(true);
+
+      setTimeout(() => {
+        const newMistakes = mistakes + 1;
+        const newScore = score - 50;
+        setMistakes(newMistakes);
+        setScore(newScore);
+        setWrongFlash(false);
+        setSelected([]);
+        setLocked(false);
+
+        if (isOneAway) {
+          showFeedback("One away!");
+        } else {
+          showFeedback("Not quite...");
+        }
+
+        if (newMistakes >= maxMistakes) {
+          setGameOver(true);
+          setShowingResults(true);
+          const remaining = CONN_ORDER.filter((c) => !solvedGroups.includes(c));
+          const finalOrder = [...solveOrder, ...remaining.map((c) => `missed_${c}`)];
+          // Delay to let player see the revealed groups
+          setTimeout(() => {
+            onFinish({ score: newScore, mistakes: newMistakes, solveOrder: finalOrder, completed: false, puzzle });
+          }, 2500);
+        }
+      }, 800);
     }
   };
 
@@ -767,12 +803,14 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
             Puzzle #{dayNumber}
           </div>
         </div>
-        <div style={{ display: "flex", gap: 4 }}>
+        <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
           {Array.from({ length: maxMistakes }).map((_, i) => (
             <div key={i} style={{
-              width: 10, height: 10, borderRadius: "50%",
-              background: i < maxMistakes - mistakes ? COLORS.gray900 : COLORS.gray200,
-              transition: "background 0.3s",
+              width: 12, height: 12, borderRadius: "50%",
+              background: i < maxMistakes - mistakes ? COLORS.gray900 : COLORS.red,
+              border: i < maxMistakes - mistakes ? "none" : `2px solid ${COLORS.red}`,
+              transition: "all 0.3s",
+              opacity: i < maxMistakes - mistakes ? 1 : 0.3,
             }} />
           ))}
         </div>
@@ -782,6 +820,18 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
         <p style={{ fontSize: 13, color: COLORS.gray500, textAlign: "center", marginBottom: 16 }}>
           Find groups of 4 that share something in common
         </p>
+
+        {/* Feedback banner */}
+        {feedbackMsg && (
+          <div className="fade-in" style={{
+            textAlign: "center", padding: "8px 16px", marginBottom: 12,
+            borderRadius: 8, fontSize: 14, fontWeight: 600,
+            background: feedbackMsg === "One away!" ? `${COLORS.gold}20` : feedbackMsg === "Already guessed!" ? `${COLORS.blue}15` : `${COLORS.red}10`,
+            color: feedbackMsg === "One away!" ? COLORS.gold : feedbackMsg === "Already guessed!" ? COLORS.blue : COLORS.red,
+          }}>
+            {feedbackMsg}
+          </div>
+        )}
 
         {/* Solved groups */}
         {solvedGroups.map((color) => {
@@ -809,18 +859,20 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
           }}>
             {remainingWords.map(({ word }) => {
               const isSelected = selected.includes(word);
+              const isWrong = wrongFlash && isSelected;
               return (
                 <div
                   key={word}
                   {...clickable(() => toggleWord(word))}
-                  className={shaking && isSelected ? "shake" : ""}
+                  className={isWrong ? "shake" : ""}
                   style={{
                     padding: "12px 4px", borderRadius: 10, textAlign: "center",
-                    fontSize: 12, fontWeight: 600, cursor: "pointer",
+                    fontSize: 12, fontWeight: 600,
+                    cursor: locked ? "default" : "pointer",
                     transition: "all 0.15s ease",
-                    background: isSelected ? COLORS.blue : COLORS.white,
-                    color: isSelected ? COLORS.white : COLORS.gray900,
-                    border: `2px solid ${isSelected ? COLORS.blue : COLORS.gray200}`,
+                    background: isWrong ? COLORS.red : isSelected ? COLORS.blue : COLORS.white,
+                    color: isSelected || isWrong ? COLORS.white : COLORS.gray900,
+                    border: `2px solid ${isWrong ? COLORS.red : isSelected ? COLORS.blue : COLORS.gray200}`,
                     userSelect: "none",
                   }}
                 >
@@ -832,13 +884,13 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
         )}
 
         {/* Game over — reveal remaining */}
-        {gameOver && solvedGroups.length < 4 && (
+        {gameOver && showingResults && solvedGroups.length < 4 && (
           CONN_ORDER.filter((c) => !solvedGroups.includes(c)).map((color) => {
             const group = puzzle.groups.find((g) => g.color === color);
             return (
               <div key={color} className="fade-in" style={{
                 background: CONN_COLORS[color].bg, borderRadius: 12,
-                padding: "12px 16px", marginBottom: 8, textAlign: "center", opacity: 0.6,
+                padding: "12px 16px", marginBottom: 8, textAlign: "center", opacity: 0.65,
               }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: CONN_COLORS[color].text, textTransform: "uppercase", letterSpacing: "0.5px" }}>
                   {group.theme}
@@ -856,12 +908,12 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
           <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
             <button
               onClick={() => setSelected([])}
-              disabled={selected.length === 0}
+              disabled={selected.length === 0 || locked}
               style={{
                 flex: 1, padding: "14px", background: COLORS.white, color: COLORS.gray700,
                 border: `1px solid ${COLORS.gray200}`, borderRadius: 12, fontSize: 14,
                 fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif",
-                opacity: selected.length === 0 ? 0.5 : 1,
+                opacity: selected.length === 0 || locked ? 0.5 : 1,
               }}
             >
               Deselect All
@@ -869,16 +921,24 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
             <button
               className="btn-primary"
               onClick={handleSubmit}
-              disabled={selected.length !== 4}
+              disabled={selected.length !== 4 || locked}
               style={{
-                flex: 1, padding: "14px", background: selected.length === 4 ? COLORS.blue : COLORS.gray200,
-                color: selected.length === 4 ? COLORS.white : COLORS.gray500,
+                flex: 1, padding: "14px",
+                background: selected.length === 4 && !locked ? COLORS.blue : COLORS.gray200,
+                color: selected.length === 4 && !locked ? COLORS.white : COLORS.gray500,
                 borderRadius: 12, fontSize: 14, fontWeight: 600,
-                cursor: selected.length === 4 ? "pointer" : "default",
+                cursor: selected.length === 4 && !locked ? "pointer" : "default",
               }}
             >
               Submit
             </button>
+          </div>
+        )}
+
+        {/* Game over message */}
+        {gameOver && showingResults && (
+          <div className="fade-in" style={{ textAlign: "center", marginTop: 16, padding: "12px", color: COLORS.gray500, fontSize: 14 }}>
+            Revealing answers...
           </div>
         )}
       </div>
@@ -890,6 +950,7 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
 function ConnectionsResultsScreen({ result, onHome, onNavigate }) {
   const [copied, setCopied] = useState(false);
   const dayNumber = getDayNumber();
+  const puzzle = result.puzzle;
 
   const emojiMap = { yellow: "🟨", green: "🟩", blue: "🟦", purple: "🟪" };
 
@@ -912,7 +973,6 @@ function ConnectionsResultsScreen({ result, onHome, onNavigate }) {
     } catch {}
   };
 
-  const maxScore = 1200;
   const emoji = result.completed ? (result.mistakes === 0 ? "🏆" : "🤙") : "🌊";
   const message = result.completed
     ? (result.mistakes === 0 ? "Perfect!" : "Nice work!")
@@ -964,7 +1024,35 @@ function ConnectionsResultsScreen({ result, onHome, onNavigate }) {
         </div>
       </div>
 
-      <div style={{ padding: "24px 20px" }}>
+      {/* All groups / answers */}
+      {puzzle && (
+        <div style={{ padding: "16px 20px 0" }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: COLORS.gray500, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>
+            Today's Groups
+          </div>
+          {CONN_ORDER.map((color) => {
+            const group = puzzle.groups.find((g) => g.color === color);
+            if (!group) return null;
+            const wasSolved = result.solveOrder.includes(color);
+            return (
+              <div key={color} style={{
+                background: CONN_COLORS[color].bg, borderRadius: 10,
+                padding: "10px 14px", marginBottom: 6, textAlign: "center",
+                opacity: wasSolved ? 1 : 0.6,
+              }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: CONN_COLORS[color].text, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  {group.theme} {wasSolved ? "✓" : "✗"}
+                </div>
+                <div style={{ fontSize: 13, color: CONN_COLORS[color].text, opacity: 0.85, marginTop: 1 }}>
+                  {group.words.join(", ")}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div style={{ padding: "16px 20px 24px" }}>
         <div style={{
           background: COLORS.white, borderRadius: 14, padding: "20px",
           border: `1px solid ${COLORS.gray200}`, marginBottom: 12, textAlign: "center",

@@ -866,8 +866,10 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
                   {...clickable(() => toggleWord(word))}
                   className={isWrong ? "shake" : ""}
                   style={{
-                    padding: "12px 4px", borderRadius: 10, textAlign: "center",
+                    padding: "18px 4px", borderRadius: 10, textAlign: "center",
                     fontSize: 12, fontWeight: 600,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    minHeight: 56,
                     cursor: locked ? "default" : "pointer",
                     transition: "all 0.15s ease",
                     background: isWrong ? COLORS.red : isSelected ? COLORS.blue : COLORS.white,

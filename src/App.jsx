@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Trophy, MapPin, Clock, Film, Wrench, Waves, Mountain, Briefcase,
   Star, Target, Mic, ChevronRight, ArrowLeft, Check, X, Share2,
-  BarChart3, Play, Calendar, Zap, Lock, Award,
+  BarChart3, Play, Calendar, Zap, Lock, Award, Heart,
 } from "lucide-react";
 import { COLORS, CATEGORY_META, LEVEL_DEFS } from "./constants";
 import {
@@ -11,8 +11,8 @@ import {
 } from "./gameEngine";
 import {
   getDailyStreak, updateDailyStreak, saveDailyResult, hasPlayedDaily,
-  getCategoryBest, saveCategoryBest, getLevelsProgress, saveLevelResult,
-  getTotalScore, addToTotalScore, getLocalToday,
+  getDailyHistory, getCategoryBest, saveCategoryBest, getLevelsProgress,
+  saveLevelResult, getTotalScore, addToTotalScore, getLocalToday,
 } from "./storage";
 import pwsLogo from "/pws-logo.png";
 import "./App.css";
@@ -20,7 +20,7 @@ import "./App.css";
 const CATEGORY_ICONS = {
   legends: Trophy, breaks: MapPin, history: Clock, culture: Film,
   craft: Wrench, ocean: Waves, bigwave: Mountain, industry: Briefcase,
-  women: Star, tricks: Target, pws: Mic,
+  women: Heart, tricks: Target, pws: Mic,
 };
 
 // Accessibility helper: makes a div act like a button
@@ -577,7 +577,7 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
             </div>
             <ChevronRight
               size={18}
-              color={COLORS.gray400}
+              color={COLORS.gray300}
               style={{
                 transform: showReview ? "rotate(90deg)" : "rotate(0deg)",
                 transition: "transform 0.2s ease",
@@ -650,6 +650,123 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
             Home
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Daily Complete Screen ───
+function DailyCompleteScreen({ onNavigate, streak }) {
+  const [countdown, setCountdown] = useState("");
+  const today = getLocalToday();
+  const history = getDailyHistory();
+  const todayResult = history.find((h) => h.date === today);
+  const dayNumber = getDayNumber();
+
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const diff = tomorrow - now;
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setCountdown(`${h}h ${m}m ${s}s`);
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div style={{ minHeight: "100vh", background: COLORS.offWhite }}>
+      <div style={{
+        background: `linear-gradient(135deg, ${COLORS.blue} 0%, ${COLORS.blueDark} 100%)`,
+        padding: "40px 24px 56px", textAlign: "center",
+      }}>
+        <div style={{ fontSize: 48, marginBottom: 8 }}>✅</div>
+        <h1 style={{ color: COLORS.white, fontSize: 24, fontWeight: 700, margin: "0 0 4px" }}>
+          Daily Challenge Complete!
+        </h1>
+        <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, margin: 0 }}>
+          Day #{dayNumber} — You already crushed it today
+        </p>
+      </div>
+
+      <div className="slide-up" style={{
+        margin: "-32px 20px 0", background: COLORS.white, borderRadius: 16,
+        padding: 24, boxShadow: "0 4px 20px rgba(0,0,0,0.08)", position: "relative", zIndex: 2,
+      }}>
+        {todayResult && (
+          <div style={{ display: "flex", justifyContent: "space-around", textAlign: "center", marginBottom: 20 }}>
+            <div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.blue }}>{todayResult.score}</div>
+              <div style={{ fontSize: 12, color: COLORS.gray500 }}>Points</div>
+            </div>
+            <div style={{ width: 1, background: COLORS.gray200 }} />
+            <div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.green }}>{todayResult.correct}/{todayResult.total}</div>
+              <div style={{ fontSize: 12, color: COLORS.gray500 }}>Correct</div>
+            </div>
+            <div style={{ width: 1, background: COLORS.gray200 }} />
+            <div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.gold }}>{streak.count || 0}</div>
+              <div style={{ fontSize: 12, color: COLORS.gray500 }}>Streak</div>
+            </div>
+          </div>
+        )}
+
+        <div style={{
+          background: COLORS.bluePale, borderRadius: 12, padding: "16px 20px", textAlign: "center",
+        }}>
+          <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.gray500, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>
+            Next challenge in
+          </div>
+          <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.blue, fontVariantNumeric: "tabular-nums" }}>
+            {countdown}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: "24px 20px" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: COLORS.gray500, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 12 }}>
+          Keep playing
+        </div>
+        {[
+          { name: "Quick Quiz", desc: "Pick a category and test your knowledge", icon: Zap, color: COLORS.gold, screen: "categories" },
+          { name: "The Lineup", desc: "Progressive levels — earn stars", icon: Award, color: COLORS.green, screen: "levels" },
+        ].map((m) => (
+          <div
+            key={m.name}
+            className="mode-card"
+            {...clickable(() => onNavigate(m.screen))}
+            style={{
+              background: COLORS.white, borderRadius: 14, padding: "16px 20px", marginBottom: 10,
+              border: `1px solid ${COLORS.gray200}`,
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <m.icon size={18} color={m.color} />
+              <div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: COLORS.gray900 }}>{m.name}</div>
+                <div style={{ fontSize: 12, color: COLORS.gray500 }}>{m.desc}</div>
+              </div>
+            </div>
+            <ChevronRight size={18} color={COLORS.gray300} />
+          </div>
+        ))}
+
+        <button
+          onClick={() => onNavigate("home")}
+          style={{
+            width: "100%", marginTop: 8, padding: "14px", background: COLORS.white, color: COLORS.gray700,
+            border: `1px solid ${COLORS.gray200}`, borderRadius: 12, fontSize: 14,
+            fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif",
+          }}
+        >
+          Back to Home
+        </button>
       </div>
     </div>
   );
@@ -821,7 +938,7 @@ export default function App() {
   const startDaily = () => {
     const today = getLocalToday();
     if (hasPlayedDaily(today)) {
-      alert("You\u2019ve already completed today\u2019s Daily Challenge! Come back tomorrow.");
+      setScreen("dailyComplete");
       return;
     }
     const questions = getDailyQuestions(today);
@@ -908,6 +1025,9 @@ export default function App() {
           onHome={goHome}
           onNavigate={navigate}
         />
+      )}
+      {screen === "dailyComplete" && (
+        <DailyCompleteScreen onNavigate={navigate} streak={streak} />
       )}
       {screen === "leaderboard" && (
         <LeaderboardScreen

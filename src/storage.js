@@ -17,19 +17,36 @@ function get(key, fallback) {
 }
 
 function set(key, val) {
-  localStorage.setItem(key, JSON.stringify(val));
+  try {
+    localStorage.setItem(key, JSON.stringify(val));
+  } catch {
+    // localStorage full or unavailable (e.g. Safari private browsing)
+  }
 }
 
 export function getDailyStreak() {
   return get(KEYS.dailyStreak, { count: 0, lastDate: null });
 }
 
+function getLocalDateStr(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+export function getLocalToday() {
+  return getLocalDateStr();
+}
+
 export function updateDailyStreak() {
-  const today = new Date().toISOString().split("T")[0];
+  const today = getLocalDateStr();
   const streak = getDailyStreak();
   if (streak.lastDate === today) return streak;
 
-  const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+  const yest = new Date();
+  yest.setDate(yest.getDate() - 1);
+  const yesterday = getLocalDateStr(yest);
   const newCount = streak.lastDate === yesterday ? streak.count + 1 : 1;
   const updated = { count: newCount, lastDate: today };
   set(KEYS.dailyStreak, updated);
@@ -76,8 +93,15 @@ export function saveLevelResult(levelIndex, score, totalPossible) {
   else if (pct >= 60) stars = 1;
 
   const existing = progress[levelIndex];
-  if (!existing || stars > existing.stars || score > existing.score) {
+  if (!existing) {
     progress[levelIndex] = { score, stars, completed: pct >= 60 };
+    set(KEYS.levelsProgress, progress);
+  } else if (stars > existing.stars || score > existing.score) {
+    progress[levelIndex] = {
+      score: Math.max(score, existing.score),
+      stars: Math.max(stars, existing.stars),
+      completed: existing.completed || pct >= 60,
+    };
     set(KEYS.levelsProgress, progress);
   }
   return { stars, passed: pct >= 60 };

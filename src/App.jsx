@@ -12,7 +12,7 @@ import {
 import {
   getDailyStreak, updateDailyStreak, saveDailyResult, hasPlayedDaily,
   getCategoryBest, saveCategoryBest, getLevelsProgress, saveLevelResult,
-  getTotalScore, addToTotalScore,
+  getTotalScore, addToTotalScore, getLocalToday,
 } from "./storage";
 import pwsLogo from "/pws-logo.png";
 import "./App.css";
@@ -271,7 +271,14 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
     setCurrentIndex((i) => i + 1);
   };
 
-  if (!question) return null;
+  if (!question) return (
+    <div style={{ minHeight: "100vh", background: COLORS.offWhite, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
+      <div style={{ fontSize: 48, marginBottom: 16 }}>🏄</div>
+      <h2 style={{ fontSize: 18, fontWeight: 600, color: COLORS.gray900, marginBottom: 8 }}>No Questions Available</h2>
+      <p style={{ fontSize: 14, color: COLORS.gray500, marginBottom: 24 }}>We couldn't load questions for this round. Try a different category or come back later.</p>
+      <button className="btn-primary" onClick={onBack} style={{ padding: "12px 32px", background: COLORS.blue, color: COLORS.white, borderRadius: 12, fontSize: 14, fontWeight: 600 }}>Go Back</button>
+    </div>
+  );
 
   const CatIcon = CATEGORY_ICONS[question.category] || Star;
   const catColor = CATEGORY_META[question.category]?.color || COLORS.blue;
@@ -440,26 +447,37 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
 function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) {
   const [copied, setCopied] = useState(false);
   const { totalPoints, correctCount, totalQuestions } = result;
-  const maxPoints = totalQuestions * 100;
+  const maxPoints = totalQuestions * 150; // 100 base + up to 1.5x streak
 
-  let emoji = "\uD83D\uDCAA";
+  const pct = Math.round((correctCount / totalQuestions) * 100);
+  let emoji = "💪";
   let message = "Keep Paddling!";
-  if (correctCount >= totalQuestions * 0.9) { emoji = "\uD83C\uDFC4\u200D\u2642\uFE0F"; message = "Legendary!"; }
-  else if (correctCount >= totalQuestions * 0.7) { emoji = "\uD83E\uDD19"; message = "Solid Session!"; }
-  else if (correctCount >= totalQuestions * 0.5) { emoji = "\uD83C\uDF0A"; message = "Not Bad!"; }
+  let subMessage = "Every wipeout makes you stronger.";
+  if (pct >= 90) { emoji = "🏄‍♂️"; message = "Legendary!"; subMessage = "You absolutely crushed it."; }
+  else if (pct >= 70) { emoji = "🤙"; message = "Solid Session!"; subMessage = "You really know your surf."; }
+  else if (pct >= 50) { emoji = "🌊"; message = "Not Bad!"; subMessage = "You're getting the hang of it."; }
 
   const dayNumber = getDayNumber();
-  const emojiGrid = result.results.map((r) => (r.correct ? "\uD83D\uDFE6" : "\u2B1C")).join("");
+  const emojiGrid = result.results.map((r) => (r.correct ? "🟦" : "⬜")).join("");
 
-  const shareText = `\uD83C\uDFC4 People Who Surf Trivia\n${mode === "daily" ? `Daily Challenge #${dayNumber}` : modeLabel}\n${emojiGrid}\nScore: ${totalPoints}/${maxPoints}${streak.count ? ` | \uD83D\uDD25 ${streak.count} day streak` : ""}\npeoplewhosurf.com/trivia`;
+  const challengeLine = mode === "daily"
+    ? `Daily Challenge #${dayNumber}`
+    : modeLabel;
+
+  const shareText = `🏄 I just scored ${totalPoints} points on People Who Surf Trivia!\n\n${challengeLine}\n${emojiGrid}\n${correctCount}/${totalQuestions} correct${streak.count >= 2 ? ` | 🔥 ${streak.count} day streak` : ""}\n\nThink you can beat me? 👇\nhttps://rishikmba.github.io/surf-trivia-game/`;
 
   const handleShare = async () => {
     if (navigator.share) {
       try { await navigator.share({ text: shareText }); return; } catch {}
     }
-    await navigator.clipboard.writeText(shareText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard not available (HTTP or permission denied)
+      setCopied(false);
+    }
   };
 
   return (
@@ -473,7 +491,7 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
           {message}
         </h1>
         <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, margin: 0 }}>
-          {modeLabel}
+          {subMessage}
         </p>
       </div>
 
@@ -500,45 +518,47 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
 
         <div style={{ marginTop: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-            <span style={{ fontSize: 12, color: COLORS.gray500 }}>Score</span>
-            <span style={{ fontSize: 12, fontWeight: 600, color: COLORS.blue }}>{totalPoints}/{maxPoints}</span>
+            <span style={{ fontSize: 12, color: COLORS.gray500 }}>Accuracy</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: COLORS.blue }}>{pct}%</span>
           </div>
           <div style={{ height: 8, background: COLORS.gray100, borderRadius: 4 }}>
             <div style={{
-              height: 8, width: `${Math.min((totalPoints / maxPoints) * 100, 100)}%`,
+              height: 8, width: `${pct}%`,
               background: `linear-gradient(90deg, ${COLORS.blue}, ${COLORS.blueLight})`,
               borderRadius: 4, transition: "width 1s ease-out",
             }} />
           </div>
         </div>
+
+        {/* Emoji result grid */}
+        <div style={{ marginTop: 16, textAlign: "center" }}>
+          <div style={{ fontSize: 20, letterSpacing: 2, lineHeight: 1.4 }}>{emojiGrid}</div>
+        </div>
       </div>
 
       <div style={{ padding: "24px 20px" }}>
+        {/* Challenge CTA */}
         <div style={{
-          background: COLORS.white, borderRadius: 14, padding: "18px 20px",
-          border: `1px solid ${COLORS.gray200}`, marginBottom: 12,
+          background: COLORS.white, borderRadius: 14, padding: "20px",
+          border: `1px solid ${COLORS.gray200}`, marginBottom: 12, textAlign: "center",
         }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.gray500, marginBottom: 10, textTransform: "uppercase" }}>
-            Share your score
+          <div style={{ fontSize: 15, fontWeight: 600, color: COLORS.gray900, marginBottom: 4 }}>
+            Challenge your friends 🤙
           </div>
-          <div style={{
-            background: COLORS.gray100, borderRadius: 10, padding: "14px 16px",
-            fontFamily: "monospace", fontSize: 13, color: COLORS.gray700, lineHeight: 1.6,
-            whiteSpace: "pre-line",
-          }}>
-            {shareText}
-          </div>
+          <p style={{ fontSize: 13, color: COLORS.gray500, margin: "0 0 16px", lineHeight: 1.4 }}>
+            Share your score and see if they can beat it
+          </p>
           <button
             className="btn-primary"
             onClick={handleShare}
             style={{
-              width: "100%", marginTop: 12, padding: "12px",
+              width: "100%", padding: "14px",
               background: copied ? COLORS.green : COLORS.blue,
-              color: COLORS.white, borderRadius: 10, fontSize: 14, fontWeight: 600,
+              color: COLORS.white, borderRadius: 12, fontSize: 15, fontWeight: 600,
               display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
             }}
           >
-            {copied ? <><Check size={16} /> Copied!</> : <><Share2 size={16} /> Share Results</>}
+            {copied ? <><Check size={16} /> Copied! Send it to your crew</> : <><Share2 size={16} /> Share Score</>}
           </button>
         </div>
 
@@ -733,7 +753,7 @@ export default function App() {
   };
 
   const startDaily = () => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = getLocalToday();
     if (hasPlayedDaily(today)) {
       alert("You\u2019ve already completed today\u2019s Daily Challenge! Come back tomorrow.");
       return;
@@ -770,7 +790,7 @@ export default function App() {
     } else if (gameState.mode === "quiz") {
       saveCategoryBest(gameState.categoryId, finishResult.totalPoints);
     } else if (gameState.mode === "level") {
-      saveLevelResult(gameState.levelIndex, finishResult.totalPoints, finishResult.totalQuestions * 100);
+      saveLevelResult(gameState.levelIndex, finishResult.totalPoints, finishResult.totalQuestions * 150);
     }
 
     refreshStats();

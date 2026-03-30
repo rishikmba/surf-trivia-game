@@ -38,10 +38,9 @@ export function getDailyQuestions(dateStr) {
 }
 
 export function getDayNumber() {
-  const start = new Date("2026-03-29");
+  const start = new Date(2026, 2, 29); // March 29, 2026 in local time
   const now = new Date();
   now.setHours(0, 0, 0, 0);
-  start.setHours(0, 0, 0, 0);
   return Math.floor((now - start) / 86400000) + 1;
 }
 

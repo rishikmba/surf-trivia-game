@@ -4,8 +4,8 @@
     {
       "name": "surf-trivia",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["vite", "--port", "5199"],
-      "port": 5199
+      "runtimeArgs": ["vite", "--port", "5180"],
+      "port": 5180
     }
   ]
 }

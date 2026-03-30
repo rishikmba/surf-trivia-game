@@ -264,9 +264,11 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
       });
       return;
     }
-    setCurrentIndex((i) => i + 1);
+    setTimeLeft(timerDuration);
+    hasAutoAnswered.current = false;
     setSelected(null);
     setAnswered(false);
+    setCurrentIndex((i) => i + 1);
   };
 
   if (!question) return null;
@@ -387,11 +389,11 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div style={{
-                    width: 28, height: 28, borderRadius: "50%",
+                    width: 28, minWidth: 28, height: 28, minHeight: 28, borderRadius: "50%",
                     background: answered && isCorrect ? COLORS.green : COLORS.gray100,
                     color: answered && isCorrect ? COLORS.white : COLORS.gray500,
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 13, fontWeight: 600,
+                    fontSize: 13, fontWeight: 600, flexShrink: 0,
                   }}>
                     {String.fromCharCode(65 + i)}
                   </div>

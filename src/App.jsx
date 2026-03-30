@@ -1040,12 +1040,12 @@ function ConnectionsResultsScreen({ result, onHome, onNavigate }) {
               <div key={color} style={{
                 background: CONN_COLORS[color].bg, borderRadius: 10,
                 padding: "10px 14px", marginBottom: 6, textAlign: "center",
-                opacity: wasSolved ? 1 : 0.6,
+                opacity: 1,
               }}>
                 <div style={{ fontSize: 12, fontWeight: 700, color: CONN_COLORS[color].text, textTransform: "uppercase", letterSpacing: "0.5px" }}>
                   {group.theme} {wasSolved ? "✓" : "✗"}
                 </div>
-                <div style={{ fontSize: 13, color: CONN_COLORS[color].text, opacity: 0.85, marginTop: 1 }}>
+                <div style={{ fontSize: 13, color: CONN_COLORS[color].text, opacity: 0.9, marginTop: 1 }}>
                   {group.words.join(", ")}
                 </div>
               </div>

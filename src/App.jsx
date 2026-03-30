@@ -854,7 +854,7 @@ function ConnectionsScreen({ puzzle, onFinish, onBack }) {
         {/* Remaining word grid */}
         {!gameOver && (
           <div style={{
-            display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 6,
+            display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gridAutoRows: "1fr", gap: 6,
             marginTop: solvedGroups.length > 0 ? 8 : 0,
           }}>
             {remainingWords.map(({ word }) => {

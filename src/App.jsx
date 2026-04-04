@@ -448,17 +448,36 @@ function QuestionScreen({ questions, mode, modeLabel, timerDuration, onFinish, o
 }
 
 // ─── Results Screen ───
-function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) {
+function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate, levelIndex, onNextLevel, levelsProgress }) {
   const [copied, setCopied] = useState(false);
   const [showReview, setShowReview] = useState(false);
   const { totalPoints, correctCount, totalQuestions } = result;
-  const maxPoints = totalQuestions * 150; // 100 base + up to 1.5x streak
 
   const pct = Math.round((correctCount / totalQuestions) * 100);
+  const passed = pct >= 60;
+
+  // Level mode: custom header
+  const isLevel = mode === "level";
+  const isLastLevel = isLevel && levelIndex === LEVEL_DEFS.length - 1;
+  const nextLevel = isLevel && !isLastLevel ? LEVEL_DEFS[levelIndex + 1] : null;
+  const totalStars = isLevel ? (levelsProgress || []).reduce((sum, l) => sum + (l?.stars || 0), 0) : 0;
+  const maxStars = LEVEL_DEFS.length * 3;
+
+  let stars = 0;
+  if (pct >= 90) stars = 3;
+  else if (pct >= 80) stars = 2;
+  else if (pct >= 60) stars = 1;
+
   let emoji = "💪";
   let message = "Keep Paddling!";
   let subMessage = "Every wipeout makes you stronger.";
-  if (pct >= 90) { emoji = "🏄‍♂️"; message = "Legendary!"; subMessage = "You absolutely crushed it."; }
+  if (isLevel && passed && isLastLevel) {
+    emoji = "👑"; message = "Legends Only!"; subMessage = "You conquered The Paddle Out. Respect.";
+  } else if (isLevel && passed) {
+    emoji = "🔓"; message = "Level Cleared!"; subMessage = `You unlocked ${nextLevel.name}. Keep charging.`;
+  } else if (isLevel && !passed) {
+    emoji = "🌊"; message = "Wipeout!"; subMessage = "You need 60% to paddle through. Try again.";
+  } else if (pct >= 90) { emoji = "🏄‍♂️"; message = "Legendary!"; subMessage = "You absolutely crushed it."; }
   else if (pct >= 70) { emoji = "🤙"; message = "Solid Session!"; subMessage = "You really know your surf."; }
   else if (pct >= 50) { emoji = "🌊"; message = "Not Bad!"; subMessage = "You're getting the hang of it."; }
 
@@ -469,7 +488,9 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
     ? `Daily Challenge #${dayNumber}`
     : modeLabel;
 
-  const shareText = `🏄 I just scored ${totalPoints} points on People Who Surf Trivia!\n\n${challengeLine}\n${emojiGrid}\n${correctCount}/${totalQuestions} correct${streak.count >= 2 ? ` | 🔥 ${streak.count} day streak` : ""}\n\nThink you can beat me? 👇\nhttps://rishikmba.github.io/surf-trivia-game/`;
+  const shareText = isLevel && passed && isLastLevel
+    ? `🏄 I just conquered The Paddle Out on People Who Surf Trivia!\n\n⭐ ${totalStars}/${maxStars} stars\n${emojiGrid}\n\nThink you can make it? 👇\nhttps://rishikmba.github.io/surf-trivia-game/`
+    : `🏄 I just scored ${totalPoints} points on People Who Surf Trivia!\n\n${challengeLine}\n${emojiGrid}\n${correctCount}/${totalQuestions} correct${streak.count >= 2 ? ` | 🔥 ${streak.count} day streak` : ""}\n\nThink you can beat me? 👇\nhttps://rishikmba.github.io/surf-trivia-game/`;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -498,6 +519,13 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
         <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, margin: 0 }}>
           {subMessage}
         </p>
+        {isLevel && (
+          <div style={{ marginTop: 12, fontSize: 24, letterSpacing: 4 }}>
+            {[1, 2, 3].map((s) => (
+              <span key={s} style={{ opacity: s <= stars ? 1 : 0.3 }}>⭐</span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="slide-up" style={{
@@ -516,8 +544,10 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
           </div>
           <div style={{ width: 1, background: COLORS.gray200 }} />
           <div>
-            <div style={{ fontSize: 32, fontWeight: 700, color: COLORS.gold }}>{streak.count || 0}</div>
-            <div style={{ fontSize: 12, color: COLORS.gray500 }}>Day Streak</div>
+            <div style={{ fontSize: 32, fontWeight: 700, color: COLORS.gold }}>
+              {isLevel ? `${stars}/3` : (streak.count || 0)}
+            </div>
+            <div style={{ fontSize: 12, color: COLORS.gray500 }}>{isLevel ? "Stars" : "Day Streak"}</div>
           </div>
         </div>
 
@@ -538,30 +568,64 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
       </div>
 
       <div style={{ padding: "24px 20px" }}>
-        {/* Challenge CTA */}
-        <div style={{
-          background: COLORS.white, borderRadius: 14, padding: "20px",
-          border: `1px solid ${COLORS.gray200}`, marginBottom: 12, textAlign: "center",
-        }}>
-          <div style={{ fontSize: 15, fontWeight: 600, color: COLORS.gray900, marginBottom: 4 }}>
-            Challenge your friends 🤙
-          </div>
-          <p style={{ fontSize: 13, color: COLORS.gray500, margin: "0 0 16px", lineHeight: 1.4 }}>
-            Share your score and see if they can beat it
-          </p>
+        {/* Level mode: Next Level / Try Again CTA */}
+        {isLevel && passed && !isLastLevel && (
           <button
             className="btn-primary"
-            onClick={handleShare}
+            onClick={() => onNextLevel(levelIndex + 1)}
             style={{
-              width: "100%", padding: "14px",
-              background: copied ? COLORS.green : COLORS.blue,
-              color: COLORS.white, borderRadius: 12, fontSize: 15, fontWeight: 600,
+              width: "100%", padding: "16px", marginBottom: 12,
+              background: COLORS.green, color: COLORS.white, borderRadius: 12,
+              fontSize: 16, fontWeight: 700, cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              fontFamily: "Inter, sans-serif", border: "none",
             }}
           >
-            {copied ? <><Check size={16} /> Copied! Send it to your crew</> : <><Share2 size={16} /> Share Score</>}
+            Continue to {nextLevel.name} <ChevronRight size={18} />
           </button>
-        </div>
+        )}
+        {isLevel && !passed && (
+          <button
+            className="btn-primary"
+            onClick={() => onNextLevel(levelIndex)}
+            style={{
+              width: "100%", padding: "16px", marginBottom: 12,
+              background: COLORS.blue, color: COLORS.white, borderRadius: 12,
+              fontSize: 16, fontWeight: 700, cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              fontFamily: "Inter, sans-serif", border: "none",
+            }}
+          >
+            Try Again
+          </button>
+        )}
+
+        {/* Share CTA — show for non-level modes, or when completing all levels */}
+        {(!isLevel || isLastLevel) && (
+          <div style={{
+            background: COLORS.white, borderRadius: 14, padding: "20px",
+            border: `1px solid ${COLORS.gray200}`, marginBottom: 12, textAlign: "center",
+          }}>
+            <div style={{ fontSize: 15, fontWeight: 600, color: COLORS.gray900, marginBottom: 4 }}>
+              {isLastLevel && passed ? "You conquered The Paddle Out 👑" : "Challenge your friends 🤙"}
+            </div>
+            <p style={{ fontSize: 13, color: COLORS.gray500, margin: "0 0 16px", lineHeight: 1.4 }}>
+              {isLastLevel && passed ? "Share your achievement — not many can say this" : "Share your score and see if they can beat it"}
+            </p>
+            <button
+              className="btn-primary"
+              onClick={handleShare}
+              style={{
+                width: "100%", padding: "14px",
+                background: copied ? COLORS.green : COLORS.blue,
+                color: COLORS.white, borderRadius: 12, fontSize: 15, fontWeight: 600,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              }}
+            >
+              {copied ? <><Check size={16} /> Copied! Send it to your crew</> : <><Share2 size={16} /> Share Score</>}
+            </button>
+          </div>
+        )}
 
         {/* Review Answers */}
         <div style={{
@@ -634,14 +698,14 @@ function ResultsScreen({ result, mode, modeLabel, streak, onHome, onNavigate }) 
 
         <div style={{ display: "flex", gap: 10 }}>
           <button
-            onClick={() => onNavigate("leaderboard")}
+            onClick={() => onNavigate(isLevel ? "levels" : "leaderboard")}
             style={{
               flex: 1, padding: "14px", background: COLORS.white, color: COLORS.blue,
               border: `1px solid ${COLORS.gray200}`, borderRadius: 12, fontSize: 14,
               fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif",
             }}
           >
-            Stats
+            {isLevel ? "All Levels" : "Stats"}
           </button>
           <button
             onClick={onHome}
@@ -1536,6 +1600,9 @@ export default function App() {
           streak={streak}
           onHome={goHome}
           onNavigate={navigate}
+          levelIndex={gameState?.levelIndex}
+          levelsProgress={levelsProgress}
+          onNextLevel={(i) => { startLevel(i); }}
         />
       )}
       {screen === "playingConnections" && gameState?.puzzle && (

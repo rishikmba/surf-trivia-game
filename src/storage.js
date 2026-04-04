@@ -86,27 +86,26 @@ export function getLevelsProgress() {
   return get(KEYS.levelsProgress, []);
 }
 
-export function saveLevelResult(levelIndex, score, totalPossible) {
+export function saveLevelResult(levelIndex, score, correctCount, totalQuestions) {
   const progress = getLevelsProgress();
-  const pct = totalPossible > 0 ? (score / totalPossible) * 100 : 0;
+  const correctPct = totalQuestions > 0 ? (correctCount / totalQuestions) * 100 : 0;
+  const passed = correctPct >= 60;
   let stars = 0;
-  if (pct >= 90) stars = 3;
-  else if (pct >= 80) stars = 2;
-  else if (pct >= 60) stars = 1;
+  if (correctPct >= 90) stars = 3;
+  else if (correctPct >= 80) stars = 2;
+  else if (correctPct >= 60) stars = 1;
 
   const existing = progress[levelIndex];
-  if (!existing) {
-    progress[levelIndex] = { score, stars, completed: pct >= 60 };
-    set(KEYS.levelsProgress, progress);
-  } else if (stars > existing.stars || score > existing.score) {
+  const shouldSave = !existing || stars > existing.stars || score > existing.score || (passed && !existing.completed);
+  if (shouldSave) {
     progress[levelIndex] = {
-      score: Math.max(score, existing.score),
-      stars: Math.max(stars, existing.stars),
-      completed: existing.completed || pct >= 60,
+      score: Math.max(score, existing?.score || 0),
+      stars: Math.max(stars, existing?.stars || 0),
+      completed: (existing?.completed || false) || passed,
     };
     set(KEYS.levelsProgress, progress);
   }
-  return { stars, passed: pct >= 60 };
+  return { stars, passed };
 }
 
 export function getTotalScore() {

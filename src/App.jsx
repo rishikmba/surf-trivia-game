@@ -1462,7 +1462,7 @@ export default function App() {
     } else if (gameState.mode === "quiz") {
       saveCategoryBest(gameState.categoryId, finishResult.totalPoints);
     } else if (gameState.mode === "level") {
-      saveLevelResult(gameState.levelIndex, finishResult.totalPoints, finishResult.totalQuestions * 150);
+      saveLevelResult(gameState.levelIndex, finishResult.totalPoints, finishResult.correctCount, finishResult.totalQuestions);
     }
 
     refreshStats();
